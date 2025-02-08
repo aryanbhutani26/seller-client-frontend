@@ -19,9 +19,7 @@ Note: This doc is for people who are facing issues while seting up the web app.
 2. cd seller-client-frontend   ( Go into the repository)
 3. npm install ( Before running this command , make sure to install node from the internet . Check node and npm versions using node -v and npm -v)
 4. You might also need these packages currently to run this app ( Might be updated later based on additional features):
-   npm install lucide-react
-   npm install gsap
-   npm install react-countup
+   npm install lucide-react gsap react-countup
 6. npm run dev
 7. Open up the link it throws , it is of the format http://localhost:3000
 
