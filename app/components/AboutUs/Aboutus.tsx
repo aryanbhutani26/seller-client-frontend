@@ -236,12 +236,12 @@ export default function AboutUs() {
             </p>
           </div>
 
-          {/* Founders Section */}
+          {/* Founders Section 
           <TeamSection
             title="Founder & Co-founder"
             icon={FaBriefcase}
             members={teamData.founders}
-          />
+          />*/}
 
           {/* HR Section */}
           <TeamSection
