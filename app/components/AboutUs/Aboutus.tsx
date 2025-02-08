@@ -1,3 +1,5 @@
+"use client"
+
 import React, { useState, useEffect } from "react";
 import { AiOutlineTeam } from "react-icons/ai";
 import { FaBriefcase, FaLinkedin, FaGithub } from "react-icons/fa";

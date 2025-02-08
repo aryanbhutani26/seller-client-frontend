@@ -1,5 +1,4 @@
-
-'use client'
+'use-client';
 
 import ProductPerformance from "@/components/ProductPerformance";
 import OverviewPage from "@/components/OverView";
@@ -19,7 +18,7 @@ export default function Home() {
     </div>
     
     </>
-=======
-'use client';
+  );
+}
 
 

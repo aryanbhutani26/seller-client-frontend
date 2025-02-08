@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState, useEffect, useRef } from "react";
 import { ArrowRight, ChevronDown } from "lucide-react";
 import { gsap } from "gsap";
