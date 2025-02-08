@@ -10,6 +10,7 @@ import {
   Nunito_Sans,
 } from "next/font/google"; // Import Roboto Condensed
 import "./globals.css";
+import NavBar from "@/components/NavBar"
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -80,6 +81,8 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${permanentMarker.variable} ${robotoCondensed.variable} ${rubikDistressed.variable} ${luckiestGuy.variable} ${sourGummy.variable} ${poppins.variable} ${nunitoSans.variable} antialiased`}
       >
+        <NavBar/>
+        
         {children}
       </body>
     </html>
