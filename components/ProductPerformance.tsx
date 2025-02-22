@@ -1,30 +1,6 @@
 "use client";
-
-import { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-  PointElement,
-} from "chart.js";
-
-// Register Chart.js components
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  LineElement,
-  PointElement,
-  Title,
-  Tooltip,
-  Legend
-);
+import "chart.js/auto";
 
 const Line = dynamic(() => import("react-chartjs-2").then((mod) => mod.Line), {
   ssr: false,
@@ -33,133 +9,118 @@ const Bar = dynamic(() => import("react-chartjs-2").then((mod) => mod.Bar), {
   ssr: false,
 });
 
-const ProductPerformance = () => {
-  const [products, setProducts] = useState([]);
-  const [search, setSearch] = useState("");
-  const [year, setYear] = useState("2024");
-  const [salesData, setSalesData] = useState([]);
-  const [performanceData, setPerformanceData] = useState([]);
+const lineData = {
+  labels: [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ],
+  datasets: [
+    {
+      label: "Monthly Sales",
+      data: [65, 59, 80, 81, 56, 60, 30, 35, 40, 74, 60, 80],
+      fill: true,
+      borderColor: "rgb(241, 245, 245)",
+      tension: 0.4,
+    },
+  ],
+};
 
-  // Fetch Products
-  useEffect(() => {
-    fetch("https://dummyjson.com/products")
-      .then((res) => res.json())
-      .then((data) => setProducts(data.products));
-  }, []);
+const barData = {
+  labels: ["Product A", "Product B", "Product C", "Product D", "Product E"],
+  datasets: [
+    {
+      label: "Product Performance",
+      data: [50, 80, 30, 60, 90],
+      backgroundColor: "rgba(75, 192, 192, 0.6)",
+      borderColor: "rgba(75, 192, 192, 1)",
+      borderWidth: 1,
+    },
+  ],
+};
 
-  // Fetch Sales & Performance Data Year-wise
-  useEffect(() => {
-    fetch(`https://fakerapi.it/api/v1/custom?_quantity=12&year=${year}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setSalesData(data.data.map(() => Math.floor(Math.random() * 1000)));
-        setPerformanceData(data.data.map(() => Math.floor(Math.random() * 100)));
-      });
-  }, [year]);
+const products = [
+  {
+    id: 1,
+    name: "Smartphone",
+    price: "$699",
+    image:
+      "https://opsg-img-cdn-gl.heytapimg.com/epb/202406/26/IzcVfAu2kdJjoeYS.png",
+  },
+  {
+    id: 2,
+    name: "Laptop",
+    price: "$1099",
+    image:
+      "https://s.yimg.com/uu/api/res/1.2/VAIXo0bjHGYVFAAaHAb8xw--~B/Zmk9c3RyaW07aD03MjA7dz0xMjgwO2FwcGlkPXl0YWNoeW9u/https://s.yimg.com/os/creatr-uploaded-images/2024-10/64081ea0-9d46-11ef-bfff-7ba57dd7df36",
+  },
+  {
+    id: 3,
+    name: "Headphones",
+    price: "$299",
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6drvlJqxL4tw_Uy7ZIsgWt3b_WD0yn577UQ&s",
+  },
+  {
+    id: 4,
+    name: "Smartwatch",
+    price: "$199",
+    image:
+      "https://m.media-amazon.com/images/I/71IaJKeus7L._AC_UF1000,1000_QL80_.jpg",
+  },
+];
 
+export default function ProductPerformance() {
   return (
     <div className="min-h-screen bg-black text-white p-6">
       <h1 className="text-3xl font-bold mb-6">Product Performance Overview</h1>
-
-      {/* Year Selection for Graphs */}
-      <div className="mb-4">
-        <label className="mr-2 text-lg">Select Year:</label>
-        <select
-          value={year}
-          onChange={(e) => setYear(e.target.value)}
-          className="text-black p-2 rounded-md"
-        >
-          <option value="2024">2024</option>
-          <option value="2023">2023</option>
-          <option value="2022">2022</option>
-        </select>
-      </div>
 
       <div className="flex flex-col lg:flex-row gap-6">
         {/* Left Side - Product List */}
         <div className="w-full lg:w-1/3 bg-gray-900 p-4 rounded-xl shadow-md">
           <h2 className="text-xl font-semibold mb-4">All Products</h2>
-          <input
-            type="text"
-            placeholder="Search products..."
-            className="w-full p-2 mb-4 rounded-md text-black"
-            onChange={(e) => setSearch(e.target.value)}
-          />
           <ul>
-            {products
-              .filter((product) =>
-                product.title.toLowerCase().includes(search.toLowerCase())
-              )
-              .map((product) => (
-                <li
-                  key={product.id}
-                  className="flex items-center gap-4 bg-gray-800 p-3 rounded-lg mb-3"
-                >
-                  <img
-                    src={product.thumbnail}
-                    alt={product.title}
-                    className="w-16 h-16 object-cover rounded-md"
-                  />
-                  <div>
-                    <p className="text-lg font-medium">{product.title}</p>
-                    <p className="text-gray-400">${product.price}</p>
-                  </div>
-                </li>
-              ))}
+            {products.map((product) => (
+              <li
+                key={product.id}
+                className="flex items-center gap-4 bg-gray-800 p-3 rounded-lg mb-3"
+              >
+                <img
+                  src={product.image}
+                  alt={product.name}
+                  className="w-16 h-16 object-cover rounded-md"
+                />
+                <div>
+                  <p className="text-lg font-medium">{product.name}</p>
+                  <p className="text-gray-400">{product.price}</p>
+                </div>
+              </li>
+            ))}
           </ul>
         </div>
 
         {/* Right Side - Graphs */}
         <div className="w-full lg:w-2/3 flex flex-col gap-6">
           <div className="bg-gray-900 p-4 rounded-xl shadow-md">
-            <h2 className="text-xl font-semibold mb-3">Monthly Sales ({year})</h2>
-            <Line
-              data={{
-                labels: [
-                  "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-                  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
-                ],
-                datasets: [
-                  {
-                    label: `Sales in ${year}`,
-                    data: salesData,
-                    borderColor: "rgb(241, 245, 245)",
-                    tension: 0.4,
-                  },
-                ],
-              }}
-              options={{
-                scales: {
-                  y: { beginAtZero: true },
-                },
-              }}
-            />
+            <h2 className="text-xl font-semibold mb-3">Monthly Sales</h2>
+            <Line data={lineData} />
           </div>
 
           <div className="bg-gray-900 p-4 rounded-xl shadow-md">
-            <h2 className="text-xl font-semibold mb-3">Product Performance ({year})</h2>
-            <Bar
-              data={{
-                labels: ["Product A", "Product B", "Product C", "Product D"],
-                datasets: [
-                  {
-                    label: `Performance in ${year}`,
-                    data: performanceData,
-                    backgroundColor: "rgba(75, 192, 192, 0.6)",
-                  },
-                ],
-              }}
-              options={{
-                scales: {
-                  y: { beginAtZero: true },
-                },
-              }}
-            />
+            <h2 className="text-xl font-semibold mb-3">Product Performance</h2>
+            <Bar data={barData} />
           </div>
         </div>
       </div>
     </div>
   );
-};
-
-export default ProductPerformance;
+}
