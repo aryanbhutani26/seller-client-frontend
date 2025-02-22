@@ -12,8 +12,18 @@ const Bar = dynamic(() => import("react-chartjs-2").then((mod) => mod.Bar), {
 
 const lineData = {
   labels: [
-    "January", "February", "March", "April", "May", "June",
-    "July", "August", "September", "October", "November", "December",
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
   ],
   datasets: [
     {

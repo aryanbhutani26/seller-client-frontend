@@ -71,8 +71,6 @@ const OverviewPage = () => {
         </div>
       </div>
       {/* Chart Section */}
-     
-
     </div>
   );
 };

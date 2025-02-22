@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { useState, useEffect } from "react";
 import { AiOutlineTeam } from "react-icons/ai";
@@ -43,6 +43,7 @@ const ProfileModal: React.FC<ProfileModalProps> = ({ member, onClose }) => {
         <button
           onClick={onClose}
           className="absolute right-4 top-4 text-gray-500 hover:text-gray-700 transition-colors"
+          title="Close"
         >
           <X className="w-6 h-6" />
         </button>
