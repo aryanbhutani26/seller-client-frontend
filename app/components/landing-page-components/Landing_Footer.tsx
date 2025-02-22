@@ -50,7 +50,7 @@ const Landing_Footer: React.FC = () => {
           <h3 className="font-semibold mt-4">About Us</h3>
           <ul className="text-sm mt-2 space-y-1">
             <li>
-              <Link href="#" className="hover:underline">
+              <Link href="/about" className="hover:underline" target="_blank">
                 Who we are?
               </Link>
             </li>
