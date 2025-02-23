@@ -1,7 +1,6 @@
 "use client";
 import dynamic from "next/dynamic";
 import "chart.js/auto";
-import { FaBox, FaDollarSign, FaEye } from "react-icons/fa";
 
 const Line = dynamic(() => import("react-chartjs-2").then((mod) => mod.Line), {
   ssr: false,

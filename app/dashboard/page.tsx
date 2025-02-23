@@ -1,8 +1,8 @@
 "use client";
 
-import OverView from "@/app/components/Dashboard/OverView";
-import ProductPerformance from "@/app/components/Dashboard/ProductPerformance";
-import NavBar from "../components/Dashboard/NavBar";
+import OverView from "@/components/Dashboard/OverView";
+import ProductPerformance from "@/components/Dashboard/ProductPerformance";
+import NavBar from "@/components/Dashboard/NavBar";
 
 export default function DashboardPage() {
   return (
