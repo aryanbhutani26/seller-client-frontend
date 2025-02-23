@@ -81,7 +81,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${permanentMarker.variable} ${robotoCondensed.variable} ${rubikDistressed.variable} ${luckiestGuy.variable} ${sourGummy.variable} ${poppins.variable} ${nunitoSans.variable} antialiased`}
       >
-        <NavBar/>
+        {/* <NavBar/> */}
         
         {children}
       </body>
