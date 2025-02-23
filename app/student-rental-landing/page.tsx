@@ -1,8 +1,8 @@
 'use client';
 import Image from 'next/image';
 import Link from "next/link";
-import Landing_Nav from "@/app/components/landing-page-components/Landing_Nav";
-import Landing_Footer from "@/app/components/landing-page-components/Landing_Footer";
+import Landing_Nav from "@/components/landing-page-components/Landing_Nav";
+import Landing_Footer from "@/components/landing-page-components/Landing_Footer";
 const products = [
   {
     id: 1,

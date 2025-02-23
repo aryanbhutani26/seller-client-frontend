@@ -1,11 +1,11 @@
 "use client";
 
 import Head from "next/head";
-import Landing_Hero from "@/app/components/landing-page-components/Landing_Hero";
-import Landing_Nav from "@/app/components/landing-page-components/Landing_Nav";
-import Landing_Boxes from "@/app/components/landing-page-components/Landing_Boxes";
-import Landing_Footer from "@/app/components/landing-page-components/Landing_Footer";
-import Landing_Reviews from "@/app/components/landing-page-components/Landing_Reviews";
+import Landing_Hero from "@/components/landing-page-components/Landing_Hero";
+import Landing_Nav from "@/components/landing-page-components/Landing_Nav";
+import Landing_Boxes from "@/components/landing-page-components/Landing_Boxes";
+import Landing_Footer from "@/components/landing-page-components/Landing_Footer";
+import Landing_Reviews from "@/components/landing-page-components/Landing_Reviews";
 
 export default function Home() {
   return (

@@ -6,7 +6,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/app/components/ui/dropdown-menu";
+} from "@/components/ui/dropdown-menu";
 import "remixicon/fonts/remixicon.css";
 import Link from "next/link";
 
@@ -19,7 +19,6 @@ const Landing_Nav: React.FC = () => {
       <div className="hidden md:flex space-x-6 items-center">
         <Link
           href="/dashboard"
-          target="_blank"
           className="text-lg font-normal hover:underline"
         >
           Sell With Us

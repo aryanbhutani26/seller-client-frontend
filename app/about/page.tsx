@@ -1,6 +1,6 @@
 "use client";
 
-import AboutUs from "@/app/components/AboutUs/Aboutus";
+import AboutUs from "@/components/AboutUs/Aboutus";
 
 export default function AboutPage() {
   return <AboutUs />;
