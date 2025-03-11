@@ -9,6 +9,7 @@ import {
   Nunito_Sans,
 } from "next/font/google";
 import "./globals.css";
+import 'remixicon/fonts/remixicon.css'
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
