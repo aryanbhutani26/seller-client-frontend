@@ -18,7 +18,10 @@ const Landing_Nav: React.FC = () => {
 
         {/* Desktop Menu */}
         <div className="hidden md:flex space-x-6 items-center">
-          <Link href="/dashboard" className="text-lg font-normal hover:underline">
+          <Link
+            href="/dashboard"
+            className="text-lg font-normal hover:underline"
+          >
             Sell With Us
           </Link>
           <Link href="/" className="text-lg font-normal hover:underline">
