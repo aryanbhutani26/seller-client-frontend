@@ -1,126 +1,339 @@
-"use client";
-import dynamic from "next/dynamic";
-import "chart.js/auto";
+import React, { useState, useEffect, useRef } from "react";
+import {
+  BarChart,
+  Bar,
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  Area,
+} from "recharts";
+import productData, { CategoryData } from "../Product Data/Product Data";
 
-const Line = dynamic(() => import("react-chartjs-2").then((mod) => mod.Line), {
-  ssr: false,
-});
-const Bar = dynamic(() => import("react-chartjs-2").then((mod) => mod.Bar), {
-  ssr: false,
-});
+const ProductDashboard: React.FC = () => {
+  const [selectedCategory, setSelectedCategory] = useState<string>("shirts");
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [categoryData, setCategoryData] = useState<CategoryData>(
+    productData["shirts"]
+  );
 
-const lineData = {
-  labels: [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ],
-  datasets: [
-    {
-      label: "Monthly Sales",
-      data: [65, 59, 80, 81, 56, 60, 30, 35, 40, 74, 60, 80],
-      fill: true,
-      borderColor: "rgb(241, 245, 245)",
-      tension: 0.4,
-    },
-  ],
-};
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
-const barData = {
-  labels: ["Product A", "Product B", "Product C", "Product D", "Product E"],
-  datasets: [
-    {
-      label: "Product Performance",
-      data: [50, 80, 30, 60, 90],
-      backgroundColor: "rgba(75, 192, 192, 0.6)",
-      borderColor: "rgba(75, 192, 192, 1)",
-      borderWidth: 1,
-    },
-  ],
-};
+  const categories = [
+    { id: "shirts", name: "Shirts" },
+    { id: "pants", name: "Pants" },
+    { id: "dresses", name: "Dresses" },
+    { id: "accessories", name: "Accessories" },
+    { id: "menswear", name: "Men's Wear" },
+    { id: "womenswear", name: "Women's Wear" },
+  ];
 
-const products = [
-  {
-    id: 1,
-    name: "Smartphone",
-    price: "$699",
-    image:
-      "https://opsg-img-cdn-gl.heytapimg.com/epb/202406/26/IzcVfAu2kdJjoeYS.png",
-  },
-  {
-    id: 2,
-    name: "Laptop",
-    price: "$1099",
-    image:
-      "https://s.yimg.com/uu/api/res/1.2/VAIXo0bjHGYVFAAaHAb8xw--~B/Zmk9c3RyaW07aD03MjA7dz0xMjgwO2FwcGlkPXl0YWNoeW9u/https://s.yimg.com/os/creatr-uploaded-images/2024-10/64081ea0-9d46-11ef-bfff-7ba57dd7df36",
-  },
-  {
-    id: 3,
-    name: "Headphones",
-    price: "$299",
-    image:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ6drvlJqxL4tw_Uy7ZIsgWt3b_WD0yn577UQ&s",
-  },
-  {
-    id: 4,
-    name: "Smartwatch",
-    price: "$199",
-    image:
-      "https://m.media-amazon.com/images/I/71IaJKeus7L._AC_UF1000,1000_QL80_.jpg",
-  },
-];
+  useEffect(() => {
+    setCategoryData(productData[selectedCategory]);
+  }, [selectedCategory]);
 
-export default function ProductPerformance() {
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  const handleCategorySelect = (categoryId: string) => {
+    setSelectedCategory(categoryId);
+    setIsDropdownOpen(false);
+  };
+
+  const peakMonth = [...categoryData.monthlyData].sort(
+    (a, b) => b.units - a.units
+  )[0];
+  const peakMonthIndex = categoryData.monthlyData.findIndex(
+    (item) => item.month === peakMonth.month
+  );
+  const peakMonthPosition =
+    (peakMonthIndex / (categoryData.monthlyData.length - 1)) * 100;
+
+  const renderCustomBar = (props) => {
+    const { x, y, width, height, index } = props;
+    const isMax = categoryData.monthlyData[index].units === peakMonth.units;
+
+    return (
+      <rect
+        x={x}
+        y={y}
+        width={isMax ? width * 1.5 : width}
+        height={height}
+        fill={isMax ? "#FF6B6B" : "#3E54C8"}
+        opacity={isMax ? 1 : 0.6}
+        rx={2}
+        ry={2}
+      />
+    );
+  };
+
   return (
-    <div className="min-h-screen bg-black text-white p-6">
-      <h1 className="text-3xl font-bold mb-6">Product Performance Overview</h1>
-
-      <div className="flex flex-col lg:flex-row gap-6">
-        {/* Left Side - Product List */}
-        <div className="w-full lg:w-1/3 bg-gray-900 p-4 rounded-xl shadow-md">
-          <h2 className="text-xl font-semibold mb-4">All Products</h2>
-          <ul>
-            {products.map((product) => (
-              <li
-                key={product.id}
-                className="flex items-center gap-4 bg-gray-800 p-3 rounded-lg mb-3"
+    <div className="p-6 bg-gray-50 min-h-screen">
+      {/* Header with dropdown */}
+      <div className="mb-6">
+        <div className="relative inline-block text-left" ref={dropdownRef}>
+          <div>
+            <button
+              type="button"
+              className="inline-flex justify-between w-48 rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500"
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+            >
+              {categories.find((cat) => cat.id === selectedCategory)?.name ||
+                "Select Category"}
+              <svg
+                className="-mr-1 ml-2 h-5 w-5"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                aria-hidden="true"
               >
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="w-16 h-16 object-cover rounded-md"
+                <path
+                  fillRule="evenodd"
+                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                  clipRule="evenodd"
                 />
-                <div>
-                  <p className="text-lg font-medium">{product.name}</p>
-                  <p className="text-gray-400">{product.price}</p>
-                </div>
-              </li>
-            ))}
-          </ul>
+              </svg>
+            </button>
+          </div>
+
+          {isDropdownOpen && (
+            <div className="origin-top-left absolute left-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-10">
+              <div
+                className="py-1"
+                role="menu"
+                aria-orientation="vertical"
+                aria-labelledby="options-menu"
+              >
+                {categories.map((category) => (
+                  <button
+                    key={category.id}
+                    className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    role="menuitem"
+                    onClick={() => handleCategorySelect(category.id)}
+                  >
+                    {category.name}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-2 bg-white p-6 rounded-lg shadow">
+          <h2 className="text-lg font-medium mb-4">{categoryData.label}</h2>
+          <div className="h-64">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart
+                data={categoryData.sizeData}
+                margin={{ top: 5, right: 30, left: 40, bottom: 5 }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis
+                  dataKey="size"
+                  label={{
+                    value: "Size",
+                    position: "insideBottom",
+                    offset: -5,
+                  }}
+                />
+                <YAxis
+                  label={{
+                    value: "Units",
+                    angle: -90,
+                    position: "insideLeft",
+                    offset: -30,
+                    style: { textAnchor: "middle" },
+                  }}
+                  tick={{ dx: -5 }}
+                  tickMargin={8}
+                />
+                <Tooltip />
+                <Bar dataKey="units" fill="#4B5563" barSize={20} />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
         </div>
 
-        {/* Right Side - Graphs */}
-        <div className="w-full lg:w-2/3 flex flex-col gap-6">
-          <div className="bg-gray-900 p-4 rounded-xl shadow-md">
-            <h2 className="text-xl font-semibold mb-3">Monthly Sales</h2>
-            <Line data={lineData} />
+        <div className="bg-white p-6 rounded-lg shadow">
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-lg font-medium">Selling Growth</h2>
+            <button className="text-sm text-gray-600 hover:text-indigo-600 transition-colors">
+              View All Products
+            </button>
+          </div>
+          <div className="space-y-6">
+            {categoryData.products.map((product) => (
+              <div
+                key={product.id}
+                className="flex items-center justify-between p-2 hover:bg-gray-50 rounded-lg transition-colors"
+              >
+                <div className="flex items-center">
+                  <div className="w-12 h-12 bg-gray-100 rounded-md overflow-hidden flex items-center justify-center shadow-sm">
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                      className="w-10 h-10 object-cover"
+                    />
+                  </div>
+                  <div className="ml-4">
+                    <h3 className="text-sm font-medium">{product.name}</h3>
+                    <p className="text-xs text-gray-500">
+                      {product.sales.toLocaleString()} Sales
+                    </p>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <div className="flex items-center text-sm">
+                    <svg
+                      className={`w-4 h-4 mr-1 ${
+                        product.percentGrowth > 5
+                          ? "text-green-500"
+                          : "text-red-500"
+                      }`}
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d={
+                          product.percentGrowth > 0
+                            ? "M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+                            : "M13 17h8m0 0v-8m0 8l-8-8-4 4-6-6"
+                        }
+                      />
+                    </svg>
+                    <span
+                      className={
+                        product.percentGrowth > 5
+                          ? "text-green-500 font-medium"
+                          : "text-red-500 font-medium"
+                      }
+                    >
+                      {product.percentGrowth}%
+                    </span>
+                  </div>
+                  <p className="text-xs text-gray-500">
+                    {product.stockRemaining} Stocks Remaining
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="mt-6 bg-white p-6 rounded-lg shadow">
+        <h2 className="text-lg font-medium mb-4">Monthly record</h2>
+        <div className="h-64 relative">
+          <div
+            className="absolute text-xs font-medium bg-red-100 text-red-800 px-2 py-1 rounded-md"
+            style={{
+              left: `${peakMonthPosition + 0.5}%`,
+              top: "10%",
+              transform: "translateX(-50%)",
+            }}
+          >
+            Peak: {peakMonth.units} units
           </div>
 
-          <div className="bg-gray-900 p-4 rounded-xl shadow-md">
-            <h2 className="text-xl font-semibold mb-3">Product Performance</h2>
-            <Bar data={barData} />
-          </div>
+          <ResponsiveContainer width="100%" height="100%">
+            <LineChart
+              data={categoryData.monthlyData}
+              margin={{ top: 20, right: 30, left: 40, bottom: 5 }}
+            >
+              <CartesianGrid strokeDasharray="3 3" strokeOpacity={0.2} />
+              <XAxis dataKey="month" />
+              <YAxis
+                label={{
+                  value: "Units",
+                  angle: -90,
+                  position: "insideLeft",
+                  offset: -30,
+                  style: { textAnchor: "middle" },
+                }}
+                tick={{ dx: -5 }}
+                tickMargin={8}
+              />
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: "rgba(255, 255, 255, 0.95)",
+                  borderRadius: "4px",
+                  boxShadow: "0 2px 5px rgba(0,0,0,0.15)",
+                  border: "none",
+                }}
+                formatter={(value) => [`${value} units`, "Sales"]}
+              />
+
+              <defs>
+                <linearGradient id="colorUnits" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#3E54C8" stopOpacity={0.2} />
+                  <stop offset="95%" stopColor="#3E54C8" stopOpacity={0} />
+                </linearGradient>
+              </defs>
+              <Area
+                type="monotone"
+                dataKey="units"
+                stroke="none"
+                fill="url(#colorUnits)"
+                fillOpacity={1}
+              />
+
+              <Bar dataKey="units" barSize={20} shape={renderCustomBar} />
+
+              <Line
+                type="monotone"
+                dataKey="units"
+                stroke="#3E54C8"
+                strokeWidth={2}
+                dot={({ cx, cy, payload }) => (
+                  <circle
+                    cx={cx}
+                    cy={cy}
+                    r={payload.units === peakMonth.units ? 5 : 3}
+                    fill={
+                      payload.units === peakMonth.units ? "#FF6B6B" : "#3E54C8"
+                    }
+                    stroke={
+                      payload.units === peakMonth.units ? "#FF4444" : "#3E54C8"
+                    }
+                    strokeWidth={payload.units === peakMonth.units ? 2 : 1}
+                  />
+                )}
+                activeDot={{
+                  r: 6,
+                  fill: "#3E54C8",
+                  stroke: "#fff",
+                  strokeWidth: 2,
+                }}
+              />
+            </LineChart>
+          </ResponsiveContainer>
         </div>
       </div>
     </div>
   );
-}
+};
+
+export default ProductDashboard;
