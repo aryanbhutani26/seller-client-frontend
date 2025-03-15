@@ -182,7 +182,6 @@ const SignUpPage: React.FC = () => {
                     />
                   </div>
 
-
                   <div>
                     <button
                       type="submit"
@@ -207,7 +206,7 @@ const SignUpPage: React.FC = () => {
               {/* Link to Sign In Page */}
               <p className="mt-4 text-center text-sm text-gray-400">
                 Already have an account?{" "}
-                <Link href="/signin" className="text-blue-400 hover:underline">
+                <Link href="/login" className="text-blue-400 hover:underline">
                   Sign in
                 </Link>
               </p>

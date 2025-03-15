@@ -133,7 +133,7 @@ const LogInPage: React.FC = () => {
             {/* Link to Sign Up Page */}
             <p className="mt-4 text-center text-sm text-gray-400">
               Don't have an account?{" "}
-              <Link href="/" className="text-blue-400 hover:underline">
+              <Link href="/signup" className="text-blue-400 hover:underline">
                 Sign up
               </Link>
             </p>
