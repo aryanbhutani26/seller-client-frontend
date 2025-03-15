@@ -55,7 +55,7 @@ export default function InventoryPage() {
     { name: "Orders", icon: FileText, href: "#" },
     { name: "Pricing", icon: DollarSign, href: "#" },
     { name: "Growth", icon: TrendingUp, href: "#" },
-    { name: "Performance", icon: BarChart2, href: "#" },
+    { name: "Performance", icon: BarChart2, href: "/performancePage" },
     { name: "Feedback", icon: MessageSquare, href: "#" },
     { name: "Help & Support", icon: HelpCircle, href: "#" },
   ];

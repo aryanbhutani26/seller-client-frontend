@@ -28,8 +28,6 @@ export default function Home() {
       <Landing_Reviews />
       <Landing_Footer />
       {/* <InventoryPage/> */}
-      {/* <LogInPage/> */}
-      {/* <SignUpPage/> */}
     </div>
   );
 }
