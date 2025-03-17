@@ -12,6 +12,16 @@ import {
   Area,
 } from "recharts";
 import productData, { CategoryData } from "../Product Data/Product Data";
+import { motion } from "framer-motion";
+import { Key } from "lucide-react";
+
+interface CustomBarProps {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  index: number;
+}
 
 const ProductDashboard: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>("shirts");
@@ -30,6 +40,19 @@ const ProductDashboard: React.FC = () => {
     { id: "menswear", name: "Men's Wear" },
     { id: "womenswear", name: "Women's Wear" },
   ];
+
+  const [isLoading, setIsLoading] = useState(true);
+  const [animatedData, setAnimatedData] = useState(categoryData.sizeData.map(item => ({...item, units: 0})));
+
+  useEffect(() => {
+    setIsLoading(true);
+    setAnimatedData(categoryData.sizeData.map(item => ({...item, units: 0})));
+    
+    setTimeout(() => {
+      setAnimatedData(categoryData.sizeData);
+      setIsLoading(false);
+    }, 300);
+  }, [selectedCategory]);
 
   useEffect(() => {
     setCategoryData(productData[selectedCategory]);
@@ -65,7 +88,7 @@ const ProductDashboard: React.FC = () => {
   const peakMonthPosition =
     (peakMonthIndex / (categoryData.monthlyData.length - 1)) * 100;
 
-  const renderCustomBar = (props) => {
+  const renderCustomBar = (props: CustomBarProps) => {
     const { x, y, width, height, index } = props;
     const isMax = categoryData.monthlyData[index].units === peakMonth.units;
 
@@ -84,9 +107,22 @@ const ProductDashboard: React.FC = () => {
   };
 
   return (
-    <div className="p-6 bg-gray-50 min-h-screen">
+    <motion.div 
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+      className="p-6 bg-gray-50 min-h-screen relative"
+    >
+      {/* Backdrop overlay */}
+      {isDropdownOpen && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50 z-[5]"
+          onClick={() => setIsDropdownOpen(false)}
+        />
+      )}
+
       {/* Header with dropdown */}
-      <div className="mb-6">
+      <div className="mb-6 relative z-10">
         <div className="relative inline-block text-left" ref={dropdownRef}>
           <div>
             <button
@@ -136,13 +172,23 @@ const ProductDashboard: React.FC = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 bg-white p-6 rounded-lg shadow">
+      <motion.div 
+        initial={{ y: 20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.5, delay: 0.2 }}
+        className="grid grid-cols-1 lg:grid-cols-3 gap-6"
+      >
+        <motion.div 
+          initial={{ scale: 0.95, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+          className="lg:col-span-2 bg-white p-6 rounded-lg shadow"
+        >
           <h2 className="text-lg font-medium mb-4">{categoryData.label}</h2>
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart
-                data={categoryData.sizeData}
+                data={animatedData}
                 margin={{ top: 5, right: 30, left: 40, bottom: 5 }}
               >
                 <CartesianGrid strokeDasharray="3 3" />
@@ -166,13 +212,24 @@ const ProductDashboard: React.FC = () => {
                   tickMargin={8}
                 />
                 <Tooltip />
-                <Bar dataKey="units" fill="#4B5563" barSize={20} />
+                <Bar 
+                  dataKey="units" 
+                  fill="#4B5563" 
+                  barSize={20}
+                  animationDuration={1000}
+                  animationBegin={300}
+                />
               </BarChart>
             </ResponsiveContainer>
           </div>
-        </div>
+        </motion.div>
 
-        <div className="bg-white p-6 rounded-lg shadow">
+        <motion.div 
+          initial={{ x: 20, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+          className="bg-white p-6 rounded-lg shadow"
+        >
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-lg font-medium">Selling Growth</h2>
             <button className="text-sm text-gray-600 hover:text-indigo-600 transition-colors">
@@ -180,9 +237,12 @@ const ProductDashboard: React.FC = () => {
             </button>
           </div>
           <div className="space-y-6">
-            {categoryData.products.map((product) => (
-              <div
+            {categoryData.products.map((product, index) => (
+              <motion.div
                 key={product.id}
+                initial={{ x: -20, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                transition={{ duration: 0.3, delay: 0.5 + index * 0.1 }}
                 className="flex items-center justify-between p-2 hover:bg-gray-50 rounded-lg transition-colors"
               >
                 <div className="flex items-center">
@@ -238,13 +298,18 @@ const ProductDashboard: React.FC = () => {
                     {product.stockRemaining} Stocks Remaining
                   </p>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
 
-      <div className="mt-6 bg-white p-6 rounded-lg shadow">
+      <motion.div 
+        initial={{ y: 20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.5, delay: 0.6 }}
+        className="mt-6 bg-white p-6 rounded-lg shadow"
+      >
         <h2 className="text-lg font-medium mb-4">Monthly record</h2>
         <div className="h-64 relative">
           <div
@@ -307,6 +372,8 @@ const ProductDashboard: React.FC = () => {
                 dataKey="units"
                 stroke="#3E54C8"
                 strokeWidth={2}
+                animationDuration={1500}
+                animationBegin={600}
                 dot={({ cx, cy, payload }) => (
                   <circle
                     cx={cx}
@@ -331,8 +398,8 @@ const ProductDashboard: React.FC = () => {
             </LineChart>
           </ResponsiveContainer>
         </div>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };
 

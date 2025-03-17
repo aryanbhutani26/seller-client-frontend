@@ -11,6 +11,17 @@ import "remixicon/fonts/remixicon.css";
 import Link from "next/link";
 
 const Landing_Nav: React.FC = () => {
+  const scrollToReviews = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    const element = document.getElementById('reviews-section');
+    if (element) {
+      element.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+  };
+
   return (
     <nav className="navbar flex justify-between items-center px-7 py-5">
       <h1 className="text-2xl font-bold md:text-3xl">ClothBuddy</h1>
@@ -19,18 +30,16 @@ const Landing_Nav: React.FC = () => {
       <div className="hidden md:flex space-x-6 items-center">
         <Link
           href="/dashboard"
-          className="text-lg font-normal hover:underline"
-        >
-          Sell With Us
-        </Link>
-        <Link href="/" className="text-lg font-normal hover:underline">
-          Success Stories
-        </Link>
-        <Link
-          href="/signup"
           className="bg-black hover:bg-[#252525] text-white font-bold py-2 px-4 rounded-full"
         >
-          Signup/Login
+          Dashboard
+        </Link>
+        <Link 
+          href="#reviews-section" 
+          onClick={scrollToReviews}
+          className="text-lg font-normal hover:underline"
+        >
+          Success Stories
         </Link>
       </div>
 
@@ -43,16 +52,18 @@ const Landing_Nav: React.FC = () => {
             </button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+            <DropdownMenuLabel>Menu</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
-              <Link href="/">Sell With Us</Link>
+              <Link href="/dashboard">Dashboard</Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
-              <Link href="/">Success Stories</Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem asChild>
-              <Link href="/signup">Signup/Login</Link>
+              <Link 
+                href="#reviews-section" 
+                onClick={scrollToReviews}
+              >
+                Success Stories
+              </Link>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

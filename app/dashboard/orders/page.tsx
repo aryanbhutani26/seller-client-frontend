@@ -630,7 +630,7 @@ const OrderTable = () => {
         <Button
           onClick={() => setIsDropdownOpen(!isDropdownOpen)}
           variant="outline"
-          className="mb-4 border-[#8F8C8C] px-4 sm:px-10 text-base sm:text-xl py-2 sm:py-5 rounded-xl border-2 font-medium"
+          className="mt-20 mb-4 border-[#8F8C8C] px-4 sm:px-10 mt-12 text-base sm:text-xl py-2 sm:py-5 rounded-xl border-2 font-medium"
         >
           Sort
         </Button>
@@ -771,41 +771,57 @@ const OrderTable = () => {
                           </button>
                           {openActionMenuId === order.id && (
                             <div
-                              className="rounded-md border border-gray-200 bg-white shadow-lg"
+                              className="rounded-lg border border-gray-200 bg-white shadow-lg overflow-hidden"
                               style={{
                                 position: "absolute",
                                 top: "100%",
                                 right: "0",
-                                width: "160px",
+                                width: "200px",
                                 zIndex: 100,
                               }}
                             >
-                              <div className="py-1">
+                              <div className="py-2">
+                                <div className="px-3 py-2 text-xs text-gray-500 font-medium border-b border-gray-100">
+                                  Filter Orders
+                                </div>
                                 <button
-                                  className="block w-full text-left px-3 sm:px-4 py-2 hover:bg-gray-100 transition text-xs sm:text-sm"
+                                  className="flex items-center w-full text-left px-4 py-2.5 hover:bg-gray-50 transition-colors text-sm group"
                                   onClick={() => filterByDateRange(3)}
                                 >
-                                  Order by last 3 months
+                                  <span className="text-gray-700 group-hover:text-gray-900">Last 3 months</span>
+                                  <span className="ml-auto text-xs text-gray-400 group-hover:text-gray-600">
+                                    {new Date().toLocaleDateString('en-US', { month: 'short' })} - {new Date().toLocaleDateString('en-US', { month: 'short' })}
+                                  </span>
                                 </button>
                                 <button
-                                  className="block w-full text-left px-3 sm:px-4 py-2 hover:bg-gray-100 transition text-xs sm:text-sm"
+                                  className="flex items-center w-full text-left px-4 py-2.5 hover:bg-gray-50 transition-colors text-sm group"
                                   onClick={() => filterByDateRange(6)}
                                 >
-                                  Order by last 6 months
+                                  <span className="text-gray-700 group-hover:text-gray-900">Last 6 months</span>
+                                  <span className="ml-auto text-xs text-gray-400 group-hover:text-gray-600">
+                                    {new Date(new Date().setMonth(new Date().getMonth() - 6)).toLocaleDateString('en-US', { month: 'short' })} - {new Date().toLocaleDateString('en-US', { month: 'short' })}
+                                  </span>
                                 </button>
                                 <button
-                                  className="block w-full text-left px-3 sm:px-4 py-2 hover:bg-gray-100 transition text-xs sm:text-sm"
+                                  className="flex items-center w-full text-left px-4 py-2.5 hover:bg-gray-50 transition-colors text-sm group"
                                   onClick={() => filterByDateRange(12)}
                                 >
-                                  Order by last 12 months
+                                  <span className="text-gray-700 group-hover:text-gray-900">Last 12 months</span>
+                                  <span className="ml-auto text-xs text-gray-400 group-hover:text-gray-600">
+                                    {new Date(new Date().setMonth(new Date().getMonth() - 12)).toLocaleDateString('en-US', { month: 'short' })} - {new Date().toLocaleDateString('en-US', { month: 'short' })}
+                                  </span>
                                 </button>
                                 {activeFilter && (
-                                  <button
-                                    className="block w-full text-left px-3 sm:px-4 py-2 hover:bg-gray-100 transition text-blue-600 text-xs sm:text-sm"
-                                    onClick={resetFilters}
-                                  >
-                                    Show all orders
-                                  </button>
+                                  <>
+                                    <div className="border-t border-gray-100 my-1"></div>
+                                    <button
+                                      className="flex items-center w-full text-left px-4 py-2.5 hover:bg-blue-50 transition-colors text-sm text-blue-600 hover:text-blue-700"
+                                      onClick={resetFilters}
+                                    >
+                                      <span>Show all orders</span>
+                                      <span className="ml-2 text-xs">↺</span>
+                                    </button>
+                                  </>
                                 )}
                               </div>
                             </div>
