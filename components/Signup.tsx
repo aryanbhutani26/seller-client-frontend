@@ -30,8 +30,9 @@ const SignUpPage: React.FC = () => {
     e.preventDefault();
 
     console.log("Form submitted:", formData);
-
-    router.push("/#");
+    
+    // Redirect to dashboard or home page after successful signup
+    router.push("/dashboard");  // or router.push("/") for home page
   };
 
   // google auth functions
@@ -160,7 +161,7 @@ const SignUpPage: React.FC = () => {
               {/* Link to Sign In Page */}
               <p className="mt-4 text-center text-sm text-gray-400">
                 Already have an account?{" "}
-                <Link href="/signin" className="text-blue-400 hover:underline">
+                <Link href="/login" className="text-blue-400 hover:underline">
                   Sign in
                 </Link>
               </p>

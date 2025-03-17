@@ -36,7 +36,7 @@ const Landing_Reviews: React.FC = () => {
   return (
     <div>
       {/* reviews section */}
-      <div className="p-10 md:p-14 bg-[#1C4670]">
+      <div id="reviews-section" className="p-10 md:p-14 bg-[#1C4670]">
         <div className="flex justify-between items-center">
           <h1 className="text-[#FFFFFF] w-36 text-center md:w-auto text-xl md:text-4xl font-bold">
             What peoples says about us
