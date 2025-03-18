@@ -1,13 +1,14 @@
+"use client";
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 
 const Landing_Hero: React.FC = () => {
   return (
-    <div>
+    <div className=" mt-12 sm:mt-16 ">
       {/* Hero Section */}
-      <div className="flex justify-center items-center">
-        <section className="m-8 md:mt-12 flex flex-col md:flex-row items-center justify-between bg-[#F3EBEB] rounded-lg">
+      <div className="flex justify-center items-center ">
+        <section className="m-8 md:mt-12 flex flex-col md:flex-row items-center justify-between bg-[#F3EBEB] rounded-lg ">
           {/* Left Content */}
           <div className="md:w-1/2 flex flex-col justify-center items-center">
             <p className="text-xl md:text-3xl mt-10 font-normal text-center mx-10">

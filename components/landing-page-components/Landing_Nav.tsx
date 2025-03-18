@@ -45,13 +45,13 @@ const Landing_Nav: React.FC = () => {
 
       {/* Mobile Dropdown Menu */}
       <div className="md:hidden">
-        <DropdownMenu>
+        <DropdownMenu  >
           <DropdownMenuTrigger asChild>
             <button aria-label="Open menu" className="text-xl">
               <i className="ri-menu-3-line font-bold"></i>
             </button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
+          <DropdownMenuContent align="end" className="w-56 bg-white border border-gray-200 shadow-lg">
             <DropdownMenuLabel>Menu</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>

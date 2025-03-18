@@ -36,7 +36,7 @@ const OverviewPage = () => {
     <div className="bg-gradient-to-br from-gray-100 to-white dark:from-gray-900 dark:to-gray-800 text-black dark:text-white flex flex-col items-center p-8 transition-all duration-500">
       {/* Welcome Message */}
       <div className="text-left w-full max-w-4xl mb-6">
-        <h2 className="text-3xl font-semibold text-gray-800 dark:text-gray-100">
+        <h2 className="text-3xl font-semibold text-gray-800 dark:text-gray-100 mt-20 lg:mt-28">
           Welcome back, {userName}
         </h2>
         <p className="text-base text-gray-600 dark:text-gray-300 mt-2">

@@ -99,14 +99,14 @@ export default function DashboardNavbar() {
         <div className="flex items-center space-x-4">
           {/* Replace the profile button with this */}
           <div className="flex items-center space-x-4">
-            <button className="relative text-gray-700 mr-10 hover:text-blue-600 transition">
+            <button className="relative text-gray-700 sm:mr-10 hover:text-blue-600 transition">
               <Bell size={22} />
             </button>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <button className="flex items-center space-x-4 mr-10 text-black hover:text-blue-600 transition bg-gray-200 border border-gray-300 rounded-full px-4 py-2">
-                  <User size={32} className="bg-white rounded-full p-0.5" />
-                  <span className="">{userName}</span>
+                <button className="flex items-center space-x-4 mr-10 text-black hover:text-blue-600 transition bg-gray-200 border border-gray-300 rounded-full px-4 py-2 sm:mr-8">
+                  <User size={32} className="bg-white rounded-full p-0.5 " />
+                  <span className="hidden sm:block">{userName} </span>
                 </button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56 bg-white border border-gray-200 shadow-lg">

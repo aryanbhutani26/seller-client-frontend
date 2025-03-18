@@ -625,7 +625,7 @@ const OrderTable = () => {
   };
 
   return (
-    <div className="p-2 sm:p-6 font-semibold relative">
+    <div className="p-2 sm:p-6 font-semibold relative mt-8">
       {/* Sort Button */}
       <div className="relative dropdown-container inline-block">
         <Button
@@ -712,7 +712,7 @@ const OrderTable = () => {
               </Button>
             </div>
           </div>
-          <div className="overflow-x-auto -mx-2 sm:mx-0">
+          <div className="overflow-x-auto">
             <div className="min-w-[640px] px-2 sm:px-0 sm:min-w-full">
               <Table className="w-full border border-gray-300 rounded-lg shadow-md">
                 <TableHeader className="bg-gray-100 text-gray-900">
