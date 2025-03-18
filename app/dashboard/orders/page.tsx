@@ -26,7 +26,8 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { Toaster, toast } from "@/components/ui/sonner";
+import { Toaster} from "@/components/ui/sonner";
+import { toast } from 'sonner';
 
 // Function to get the status color
 const getStatusColor = (status: string) => {
@@ -102,7 +103,7 @@ const OrderTable = () => {
         Dec: 11,
       };
 
-      const month = monthNames[parts[1]];
+      const month = monthNames[parts[1] as keyof typeof monthNames];
       const day = parseInt(parts[2]);
       let hour = parseInt(parts[3]);
       const minute = parseInt(parts[4]);
@@ -501,7 +502,7 @@ const OrderTable = () => {
     };
 
     // Modified status change handler
-    const handleStatusChangeWithScroll = (orderId, status, e) => {
+    const handleStatusChangeWithScroll = (orderId: string, status: string, e: React.MouseEvent) => {
       // Save current scroll position before state change
       saveScrollPosition();
 
@@ -624,7 +625,7 @@ const OrderTable = () => {
   };
 
   return (
-    <div className="p-2 sm:p-6 font-semibold relative">
+    <div className="p-2 sm:p-6 font-semibold relative mt-8">
       {/* Sort Button */}
       <div className="relative dropdown-container inline-block">
         <Button
@@ -711,7 +712,7 @@ const OrderTable = () => {
               </Button>
             </div>
           </div>
-          <div className="overflow-x-auto -mx-2 sm:mx-0">
+          <div className="overflow-x-auto">
             <div className="min-w-[640px] px-2 sm:px-0 sm:min-w-full">
               <Table className="w-full border border-gray-300 rounded-lg shadow-md">
                 <TableHeader className="bg-gray-100 text-gray-900">

@@ -1,6 +1,8 @@
+
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import {
   Menu,
   Search,
@@ -9,13 +11,23 @@ import {
   Settings,
   Package,
   BarChart3,
-  Users,
+  // Remove Users,
   LifeBuoy,
   ClipboardList,
   X,
   MessageSquareMore,
+  LogOut,
 } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import Link from "next/link";
+import { supabase } from "@/lib/supabaseClient";
 
 const menuItems = [
   { name: "Dashboard", href: "/dashboard", icon: <BarChart3 size={22} className="text-blue-500" /> },
@@ -26,13 +38,36 @@ const menuItems = [
   { name: "Feedback", href: "/dashboard/feedback", icon: <MessageSquareMore size={22} className="text-pink-500" /> },
   { name: "Support", href: "/dashboard/support", icon: <LifeBuoy size={22} className="text-red-500" /> },
 ];
-
-export default function Navbar() {
+// interface NavbarProps {
+//   onToggleSidebar: () => void; // ✅ Define the prop
+// }
+export default function DashboardNavbar() {
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [userName, setUserName] = useState<string>("");
+
+  useEffect(() => {
+    const fetchUserName = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user?.email) {
+        const name = user.email.split('@')[0];
+        setUserName(name.charAt(0).toUpperCase() + name.slice(1));
+      }
+    };
+
+    fetchUserName();
+  }, []);
 
   const toggleSidebar = () => setIsOpen(!isOpen);
   const closeSidebar = () => setIsOpen(false);
+
+  const handleLogout = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (!error) {
+      router.push('/login');
+    }
+  };
 
   return (
     <div className="relative">
@@ -44,7 +79,9 @@ export default function Navbar() {
         </button>
 
         {/* Brand Name */}
-        <h1 className="text-2xl font-semibold tracking-wide text-gray-800">ClothBuddy</h1>
+        <Link href="/dashboard" className="hover:opacity-80 transition-opacity">
+          <h1 className="text-2xl font-semibold tracking-wide text-gray-800">ClothBuddy</h1>
+        </Link>
 
         {/* Search Bar */}
         <div className="relative flex-1 max-w-lg mx-4">
@@ -60,16 +97,38 @@ export default function Navbar() {
 
         {/* Icons - Notifications & Profile */}
         <div className="flex items-center space-x-4">
-          <button className="relative text-gray-700 hover:text-blue-600 transition">
-            <Bell size={22} />
-          </button>
-          <button className="text-gray-700 hover:text-blue-600 transition">
-            <User size={22} />
-          </button>
+          {/* Replace the profile button with this */}
+          <div className="flex items-center space-x-4">
+            <button className="relative text-gray-700 sm:mr-10 hover:text-blue-600 transition">
+              <Bell size={22} />
+            </button>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button className="flex items-center space-x-4 mr-10 text-black hover:text-blue-600 transition bg-gray-200 border border-gray-300 rounded-full px-4 py-2 sm:mr-8">
+                  <User size={32} className="bg-white rounded-full p-0.5 " />
+                  <span className="hidden sm:block">{userName} </span>
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-56 bg-white border border-gray-200 shadow-lg">
+                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                  <Link href="/dashboard/profile" className="w-full flex items-center">
+                    <User className="mr-2 h-4 w-4" />
+                    <span>Manage Profile</span>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={handleLogout} className="text-red-600">
+                  <LogOut className="mr-2 h-4 w-4" />
+                  <span>Logout</span>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
         </div>
       </nav>
 
-      {/* Sidebar */}
+      {/* Rest of your component remains the same */}
       <aside
         className={`fixed top-0 left-0 h-full w-72 bg-white/90 backdrop-blur-lg shadow-xl z-40 transform transition-transform ${
           isOpen ? "translate-x-0" : "-translate-x-full"
@@ -83,7 +142,7 @@ export default function Navbar() {
           </button>
         </div>
 
-        {/* Sidebar Search (Optional) */}
+        {/* Sidebar Search */}
         <div className="p-4">
           <div className="flex items-center bg-gray-100 rounded-lg px-3 py-2 shadow-inner">
             <Search size={18} className="text-gray-500" />
@@ -111,8 +170,9 @@ export default function Navbar() {
         </nav>
       </aside>
 
-      {/* Overlay for when sidebar is open */}
+      {/* Overlay */}
       {isOpen && <div className="fixed inset-0 bg-black/40" onClick={closeSidebar}></div>}
     </div>
   );
 }
+
