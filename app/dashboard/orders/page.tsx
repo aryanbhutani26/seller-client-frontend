@@ -103,7 +103,7 @@ const OrderTable = () => {
         Dec: 11,
       };
 
-      const month = monthNames[parts[1]];
+      const month = monthNames[parts[1] as keyof typeof monthNames];
       const day = parseInt(parts[2]);
       let hour = parseInt(parts[3]);
       const minute = parseInt(parts[4]);
@@ -502,7 +502,7 @@ const OrderTable = () => {
     };
 
     // Modified status change handler
-    const handleStatusChangeWithScroll = (orderId, status, e) => {
+    const handleStatusChangeWithScroll = (orderId: string, status: string, e: React.MouseEvent) => {
       // Save current scroll position before state change
       saveScrollPosition();
 

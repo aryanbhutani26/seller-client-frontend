@@ -20,8 +20,9 @@ import {
   Notifications as NotificationsIcon,
   MoreVert as MoreIcon,
   Inventory as InventoryIcon,
+  Menu as MenuIcon,
 } from "@mui/icons-material";
-import Link from "next/link";  // Add this import at the top with other imports
+import Link from "next/link";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -63,7 +64,11 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function NavBar() {
+interface NavBarProps {
+  onToggleSidebar?: () => void;
+}
+
+export default function NavBar({ onToggleSidebar }: NavBarProps) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     React.useState<null | HTMLElement>(null);
@@ -114,7 +119,7 @@ export default function NavBar() {
       onClose={handleMobileMenuClose}
     >
       <MenuItem>
-        <IconButton size="large" color="black">
+        <IconButton size="large" color="default">
           <Badge badgeContent={1} color="error">
             <InventoryIcon />
           </Badge>
@@ -124,7 +129,7 @@ export default function NavBar() {
         </Typography>
       </MenuItem>
       <MenuItem>
-        <IconButton size="large" color="black">
+        <IconButton size="large" color="default">
           <Badge badgeContent={4} color="error">
             <MailIcon />
           </Badge>
@@ -134,7 +139,7 @@ export default function NavBar() {
         </Typography>
       </MenuItem>
       <MenuItem>
-        <IconButton size="large" color="black">
+        <IconButton size="large" color="default">
           <Badge badgeContent={17} color="error">
             <NotificationsIcon />
           </Badge>
@@ -144,7 +149,7 @@ export default function NavBar() {
         </Typography>
       </MenuItem>
       <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton size="large" color="black">
+        <IconButton size="large" color="default">
           <AccountCircle />
         </IconButton>
         <Typography variant="body2" color="black">
@@ -164,6 +169,16 @@ export default function NavBar() {
         }}
       >
         <Toolbar>
+          <IconButton
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            sx={{ mr: 2, color: 'black' }}
+            onClick={onToggleSidebar}
+          >
+            <MenuIcon />
+          </IconButton>
           <Typography
             variant="h6"
             component="div"
@@ -184,17 +199,17 @@ export default function NavBar() {
           </Search>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
-            <IconButton size="large" color="black">
+            <IconButton size="large" color="default">
               <Badge badgeContent={1} color="error">
                 <InventoryIcon />
               </Badge>
             </IconButton>
-            <IconButton size="large" color="black">
+            <IconButton size="large" color="default">
               <Badge badgeContent={4} color="error">
                 <MailIcon />
               </Badge>
             </IconButton>
-            <IconButton size="large" color="black">
+            <IconButton size="large" color="default">
               <Badge badgeContent={17} color="error">
                 <NotificationsIcon />
               </Badge>
@@ -205,7 +220,8 @@ export default function NavBar() {
               aria-controls={menuId}
               aria-haspopup="true"
               onClick={handleProfileMenuOpen}
-              color="black"
+              color="default"
+              sx={{ color: 'black' }}
             >
               <AccountCircle />
             </IconButton>
@@ -216,7 +232,8 @@ export default function NavBar() {
               aria-controls={mobileMenuId}
               aria-haspopup="true"
               onClick={handleMobileMenuOpen}
-              color="black"
+              color="default"
+              sx={{ color: 'black' }}
             >
               <MoreIcon />
             </IconButton>

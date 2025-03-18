@@ -445,15 +445,15 @@ import {
 } from "recharts";
 import productData, { CategoryData } from "../Product Data/Product Data";
 import { motion } from "framer-motion";
-import Image from "next/image"; // Fixed missing Image import
+// import Image from "next/image"; // Fixed missing Image import
 
-interface CustomBarProps {
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-  index: number;
-}
+// interface CustomBarProps {
+//   x: number;
+//   y: number;
+//   width: number;
+//   height: number;
+//   index: number;
+// }
 
 const ProductDashboard: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>("shirts");
@@ -464,10 +464,13 @@ const ProductDashboard: React.FC = () => {
 
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [isLoading, setIsLoading] = useState(true);
+
   const [animatedData, setAnimatedData] = useState(
     categoryData.sizeData.map((item) => ({ ...item, units: 0 }))
   );
-
+useEffect(()=>{
+  console.log(isLoading)
+},[isLoading])
   const categories = [
     { id: "shirts", name: "Shirts" },
     { id: "pants", name: "Pants" },
@@ -491,7 +494,7 @@ const ProductDashboard: React.FC = () => {
     }, 300);
 
     return () => clearTimeout(timer);
-  }, [categoryData]);
+  }, [categoryData, setIsLoading]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {

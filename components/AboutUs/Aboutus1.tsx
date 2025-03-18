@@ -6,7 +6,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import CountUp from "react-countup";
 import Image from "next/image";
-
+import { useMemo } from "react";
 gsap.registerPlugin(ScrollTrigger);
 
 export default function Home() {
@@ -34,7 +34,7 @@ export default function Home() {
   const secondImageRef = useRef(null);
   const secondTextRef = useRef(null);
 
-  const phrases = [
+  const phrases = useMemo(() => [
     "Instant Access",
     "Personalized Picks",
     "Effortless Discovery",
@@ -44,8 +44,8 @@ export default function Home() {
     "Sustainable Fashion",
     "Small Business Growth",
     "Eco-Friendly.",
-  ];
-  const [phraseIndex, setPhraseIndex] = useState(0);
+  ], []);
+   const [phraseIndex, setPhraseIndex] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -212,7 +212,7 @@ export default function Home() {
 
     const interval = setInterval(textAnimation, 3000);
     return () => clearInterval(interval);
-  }, []);
+  }, [phraseIndex, phrases]);
 
   const handleScroll = () => {
     window.scrollTo({

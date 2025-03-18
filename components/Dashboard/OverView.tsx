@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import dynamic from "next/dynamic";
+
 import "chart.js/auto";
 import { FaBox } from "react-icons/fa";
 import { IoPeople } from "react-icons/io5";

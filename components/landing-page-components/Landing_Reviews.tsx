@@ -67,7 +67,7 @@ const Landing_Reviews: React.FC = () => {
                 <p className="text-[#667085]">{data.p}</p>
               </div>
 
-              // Replace the img tag in the profile section
+              {/* // Replace the img tag in the profile section */}
               <div className="mt-4 md:flex gap-4 items-center">
                 <Image
                   src={data.imgSrc}

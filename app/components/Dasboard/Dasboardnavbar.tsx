@@ -38,7 +38,9 @@ const menuItems = [
   { name: "Feedback", href: "/dashboard/feedback", icon: <MessageSquareMore size={22} className="text-pink-500" /> },
   { name: "Support", href: "/dashboard/support", icon: <LifeBuoy size={22} className="text-red-500" /> },
 ];
-
+// interface NavbarProps {
+//   onToggleSidebar: () => void; // ✅ Define the prop
+// }
 export default function DashboardNavbar() {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
