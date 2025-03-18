@@ -5,6 +5,7 @@ import { AiOutlineTeam } from "react-icons/ai";
 import { FaLinkedin, FaGithub } from "react-icons/fa";
 import { X, Users, Megaphone } from "lucide-react"; // Added Users and Megaphone icons
 import AboutUs1 from "./Aboutus1";
+import Image from "next/image";
 
 interface TeamMember {
   name: string;
@@ -49,10 +50,13 @@ const ProfileModal: React.FC<ProfileModalProps> = ({ member, onClose }) => {
 
         <div className="p-8">
           <div className="flex flex-col md:flex-row gap-8 items-center md:items-start">
+            // Replace img tags in ProfileModal
             <div className="w-48 h-48 rounded-full overflow-hidden flex-shrink-0">
-              <img
+              <Image
                 src={member.image}
                 alt={member.name}
+                width={192}
+                height={192}
                 className="w-full h-full object-cover"
               />
             </div>
@@ -298,10 +302,13 @@ export default function AboutUs() {
                   onClick={() => handleMemberClick(member)}
                 >
                   <div className="p-6 text-center">
+                    // Replace img tags in TeamSection and Development Team grid
                     <div className="relative w-32 h-32 mx-auto mb-4 rounded-full overflow-hidden">
-                      <img
+                      <Image
                         src={member.image}
                         alt={member.name}
+                        width={128}
+                        height={128}
                         className="w-full h-full object-cover"
                       />
                     </div>

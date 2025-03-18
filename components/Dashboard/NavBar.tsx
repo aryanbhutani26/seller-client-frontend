@@ -21,6 +21,7 @@ import {
   MoreVert as MoreIcon,
   Inventory as InventoryIcon,
 } from "@mui/icons-material";
+import Link from "next/link";  // Add this import at the top with other imports
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -168,7 +169,9 @@ export default function NavBar() {
             component="div"
             sx={{ display: { xs: "none", sm: "block" }, fontWeight: "bold", color: "black" }}
           >
-            ClothBuddy
+            <Link href="/dashboard" style={{ textDecoration: 'none', color: 'black' }}>
+              ClothBuddy
+            </Link>
           </Typography>
           <Search>
             <SearchIconWrapper>

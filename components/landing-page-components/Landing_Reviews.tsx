@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 
 interface Review {
   imgSrc: string;
@@ -51,7 +52,7 @@ const Landing_Reviews: React.FC = () => {
             >
               <div className="flex justify-between items-center">
                 <p className="bg-gradient-to-r from-[#FFA229] to-[#1C4670] bg-clip-text text-transparent text-5xl">
-                  "
+                &quot;
                 </p>
 
                 <div>
@@ -66,11 +67,14 @@ const Landing_Reviews: React.FC = () => {
                 <p className="text-[#667085]">{data.p}</p>
               </div>
 
+              // Replace the img tag in the profile section
               <div className="mt-4 md:flex gap-4 items-center">
-                <img
+                <Image
                   src={data.imgSrc}
-                  className="h-16 w-16 object-cover rounded-full"
                   alt="profile image"
+                  width={64}
+                  height={64}
+                  className="h-16 w-16 object-cover rounded-full"
                 />
                 <div>
                   <h1 className="text-[#3C2109] text-lg font-bold">{data.h1}</h1>

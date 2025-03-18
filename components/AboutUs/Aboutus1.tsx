@@ -5,6 +5,7 @@ import { ArrowRight, ChevronDown } from "lucide-react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import CountUp from "react-countup";
+import Image from "next/image";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -44,7 +45,15 @@ export default function Home() {
     "Small Business Growth",
     "Eco-Friendly.",
   ];
-  let phraseIndex = 0;
+  const [phraseIndex, setPhraseIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setPhraseIndex((prevIndex) => (prevIndex + 1) % phrases.length);
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [phrases.length]);
 
   // Handle scroll button visibility
   useEffect(() => {
@@ -192,7 +201,7 @@ export default function Home() {
         y: -10,
         duration: 0.3,
         onComplete: () => {
-          phraseIndex = (phraseIndex + 1) % phrases.length;
+          setPhraseIndex((prevIndex) => (prevIndex + 1) % phrases.length);
           if (textRef.current) {
             textRef.current.innerText = phrases[phraseIndex];
             gsap.to(textRef.current, { opacity: 1, y: 0, duration: 0.3 });
@@ -221,9 +230,11 @@ export default function Home() {
           ref={topRightDonutRef}
           className="absolute right-10 top-20 w-32 lg:w-48"
         >
-          <img
+          <Image
             src="/shapes/donut.png"
             alt="Donut"
+            width={192}
+            height={192}
             className="w-full h-full object-cover opacity-60"
           />
         </div>
@@ -231,9 +242,11 @@ export default function Home() {
           ref={topLeftCubeRef}
           className="absolute left-20 top-40 w-24 lg:w-36"
         >
-          <img
+          <Image
             src="/shapes/cube.png"
             alt="Cube"
+            width={144}
+            height={144}
             className="w-full h-full object-cover opacity-60"
           />
         </div>
@@ -241,9 +254,11 @@ export default function Home() {
           ref={topCenterRingRef}
           className="absolute left-1/2 top-32 w-16 lg:w-24"
         >
-          <img
+          <Image
             src="/shapes/circle.png"
             alt="Ring"
+            width={96}
+            height={96}
             className="w-full h-full object-cover opacity-40"
           />
         </div>
@@ -253,9 +268,11 @@ export default function Home() {
           ref={centerPyramidRef}
           className="absolute left-1/3 top-1/2 w-20 lg:w-32"
         >
-          <img
+          <Image
             src="/shapes/frok.png"
             alt="Pyramid"
+            width={128}
+            height={128}
             className="w-full h-full object-cover opacity-50"
           />
         </div>
@@ -263,9 +280,11 @@ export default function Home() {
           ref={midRightStarRef}
           className="absolute right-1/4 top-1/3 w-16 lg:w-24"
         >
-          <img
+          <Image
             src="/shapes/press.png"
             alt="Star"
+            width={96}
+            height={96}
             className="w-full h-full object-cover opacity-40"
           />
         </div>
@@ -273,9 +292,11 @@ export default function Home() {
           ref={midLeftHexagonRef}
           className="absolute left-1/4 top-2/3 w-24 lg:w-36"
         >
-          <img
+          <Image
             src="/shapes/swe.png"
             alt="Hexagon"
+            width={144}
+            height={144}
             className="w-full h-full object-cover opacity-30"
           />
         </div>
@@ -285,9 +306,11 @@ export default function Home() {
           ref={bottomRightSphereRef}
           className="absolute right-32 bottom-40 w-20 lg:w-32"
         >
-          <img
+          <Image
             src="/shapes/wear.png"
             alt="Sphere"
+            width={128}
+            height={128}
             className="w-full h-full object-cover opacity-50"
           />
         </div>
@@ -295,9 +318,11 @@ export default function Home() {
           ref={bottomLeftCircleRef}
           className="absolute bottom-20 left-20 w-20 lg:w-32"
         >
-          <img
+          <Image
             src="/shapes/circle.png"
             alt="Circle"
+            width={128}
+            height={128}
             className="w-full h-full object-cover opacity-40"
           />
         </div>
@@ -305,9 +330,11 @@ export default function Home() {
           ref={bottomCenterSquareRef}
           className="absolute left-10 bottom-1/4 w-16 lg:w-24"
         >
-          <img
+          <Image
             src="/shapes/cube.png"
             alt="Square"
+            width={96}
+            height={96}
             className="w-full h-full object-cover opacity-30"
           />
         </div>
@@ -315,9 +342,11 @@ export default function Home() {
           ref={cornerTriangleRef}
           className="absolute right-10 bottom-10 w-24 lg:w-36"
         >
-          <img
+          <Image
             src="/shapes/cube.png"
             alt="Triangle"
+            width={144}
+            height={144}
             className="w-full h-full object-cover opacity-40"
           />
         </div>
@@ -401,9 +430,11 @@ export default function Home() {
             className="relative h-[400px] rounded-2xl overflow-hidden shadow-xl"
             ref={rightFadeRef}
           >
-            <img
+            <Image
               src="/homeimage.png"
               alt="Shopping Experience"
+              width={800}
+              height={400}
               className="w-full h-full object-cover"
             />
           </div>
@@ -415,9 +446,11 @@ export default function Home() {
             className="relative h-[400px] rounded-2xl overflow-hidden shadow-xl order-2 lg:order-1"
             ref={secondImageRef}
           >
-            <img
+            <Image
               src="https://images.unsplash.com/photo-1441986300917-64674bd600d8"
               alt="Sustainable Fashion"
+              width={800}
+              height={400}
               className="w-full h-full object-cover"
             />
           </div>

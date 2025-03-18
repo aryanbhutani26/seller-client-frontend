@@ -1,7 +1,9 @@
 "use client"; // Required for interactivity
 
 import { useState } from "react";
-import Sidebar from "@/components/Sidebar";
+// Remove unused Sidebar import
+
+// Remove: import { Sidebar } from ...
 import Navbar from "../components/Dasboard/Dasboardnavbar";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {

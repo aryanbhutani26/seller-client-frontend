@@ -15,7 +15,7 @@ const Landing_Hero: React.FC = () => {
               users worldwide who trust ClothBuddy.
             </p>
             <Link
-              href="/"
+              href="/signup"
               className="inline-block mt-12 md:mt-32 bg-black hover:bg-[#252525] text-white text-xl font-bold py-2 px-4 md:py-4 md:px-6 rounded-full"
             >
               Start Selling

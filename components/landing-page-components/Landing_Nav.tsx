@@ -29,10 +29,10 @@ const Landing_Nav: React.FC = () => {
       {/* Desktop Menu */}
       <div className="hidden md:flex space-x-6 items-center">
         <Link
-          href="/dashboard"
+          href="/signup"
           className="bg-black hover:bg-[#252525] text-white font-bold py-2 px-4 rounded-full"
         >
-          Dashboard
+          Sell with us
         </Link>
         <Link 
           href="#reviews-section" 
@@ -56,6 +56,9 @@ const Landing_Nav: React.FC = () => {
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
               <Link href="/dashboard">Dashboard</Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link href="/signup">Sell with us</Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
               <Link 

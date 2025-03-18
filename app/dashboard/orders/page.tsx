@@ -26,7 +26,8 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { Toaster, toast } from "@/components/ui/sonner";
+import { Toaster} from "@/components/ui/sonner";
+import { toast } from 'sonner';
 
 // Function to get the status color
 const getStatusColor = (status: string) => {
