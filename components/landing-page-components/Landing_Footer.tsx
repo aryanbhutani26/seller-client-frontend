@@ -4,14 +4,9 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 
 const Landing_Footer: React.FC = () => {
-<<<<<<< HEAD
   const [email, setEmail] = useState<string>("");
   const [mounted, setMounted] = useState<boolean>(false);
 
-=======
-  const [email, setEmail] = useState("");
-  const [mounted, setMounted] = useState(false);
->>>>>>> 930e444cb2dcf8320b9c82e74df1b10e5551dc76
   useEffect(() => {
     setMounted(true);
   }, []);
