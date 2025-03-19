@@ -151,6 +151,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { supabase } from "@/lib/supabaseClient";
+import "remixicon/fonts/remixicon.css";
 
 const LoginPage: React.FC = () => {
   const router = useRouter();
@@ -159,9 +160,19 @@ const LoginPage: React.FC = () => {
     email: "",
     password: "",
   });
-  
+
   const [error, setError] = useState<string | null>(null);
   const [gridItems, setGridItems] = useState<number[]>([]);
+
+  const [showPassword, setShowPassword] = useState<string>("password");
+
+  function handlePasswordType() {
+    if (showPassword === "password") {
+      setShowPassword("text");
+    } else {
+      setShowPassword("password");
+    }
+  }
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -199,7 +210,7 @@ const LoginPage: React.FC = () => {
     <>
       <main className="min-h-screen bg-[#2C3E50] w-full text-white overflow-x-hidden">
         {/* Background hovering effect */}
-        <div className="absolute top-0 left-0 w-full grid grid-cols-[repeat(auto-fit,64px)] grid-rows-[repeat(auto-fit,64px)] z-0">
+        <div className="absolute top-0 left-0 w-full grid grid-cols-[repeat(auto-fit,64px)] grid-rows-[repeat(auto-fit,64px)] z-0 h-screen overflow-hidden">
           {gridItems.map((_, i) => (
             <div
               key={i}
@@ -229,16 +240,22 @@ const LoginPage: React.FC = () => {
                   required
                   className="w-full rounded-md bg-gray-600/50 px-4 py-2 text-white placeholder-gray-400"
                 />
-                <input
-                  type="password"
-                  name="password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  placeholder="Enter your password"
-                  required
-                  minLength={6}
-                  className="w-full rounded-md bg-gray-600/50 px-4 py-2 text-white placeholder-gray-400"
-                />
+                <div className="relative flex items-center">
+                  <input
+                    type={showPassword}
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    placeholder="Create a new password"
+                    required
+                    minLength={6}
+                    className="w-full rounded-md bg-gray-600/50 px-4 py-2 text-white placeholder-gray-400"
+                  />
+                  <i
+                    onClick={handlePasswordType}
+                    className="absolute right-2 ri-eye-fill"
+                  ></i>
+                </div>
                 <button
                   type="submit"
                   className="w-full rounded-md bg-gray-600/50 py-2 font-medium text-white hover:bg-gray-600/70"
