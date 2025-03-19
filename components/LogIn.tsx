@@ -29,6 +29,16 @@ const LoginPage: React.FC = () => {
     }
   }
 
+  const [showPassword, setShowPassword] = useState<string>("password");
+
+  function handlePasswordType() {
+    if (showPassword === "password") {
+      setShowPassword("text");
+    } else {
+      setShowPassword("password");
+    }
+  }
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       const items = Array(
@@ -85,6 +95,7 @@ const LoginPage: React.FC = () => {
             <div className="rounded-3xl bg-black p-8 shadow-lg ring-1 ring-white/10">
               <h2 className="mb-6 text-center text-2xl font-semibold">Login</h2>
               {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
+<<<<<<< HEAD
               {mounted && (
                 <form className="space-y-4" onSubmit={handleSubmit}>
                   <input
@@ -120,6 +131,41 @@ const LoginPage: React.FC = () => {
                   </button>
                 </form>
               )}
+=======
+              <form className="space-y-4" onSubmit={handleSubmit}>
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  placeholder="Enter your e-mail"
+                  required
+                  className="w-full rounded-md bg-gray-600/50 px-4 py-2 text-white placeholder-gray-400"
+                />
+                <div className="relative flex items-center">
+                  <input
+                    type={showPassword}
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    placeholder="Create a new password"
+                    required
+                    minLength={6}
+                    className="w-full rounded-md bg-gray-600/50 px-4 py-2 text-white placeholder-gray-400"
+                  />
+                  <i
+                    onClick={handlePasswordType}
+                    className="absolute right-2 ri-eye-fill"
+                  ></i>
+                </div>
+                <button
+                  type="submit"
+                  className="w-full rounded-md bg-gray-600/50 py-2 font-medium text-white hover:bg-gray-600/70"
+                >
+                  Login
+                </button>
+              </form>
+>>>>>>> 930e444cb2dcf8320b9c82e74df1b10e5551dc76
               <p className="mt-4 text-center text-sm text-gray-400">
                 Don&apost have an account?{" "}
                 <Link href="/signup" className="text-blue-400 hover:underline">

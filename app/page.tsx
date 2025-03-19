@@ -6,6 +6,8 @@ import Landing_Nav from "@/components/landing-page-components/Landing_Nav";
 import Landing_Boxes from "@/components/landing-page-components/Landing_Boxes";
 import Landing_Footer from "@/components/landing-page-components/Landing_Footer";
 import Landing_Reviews from "@/components/landing-page-components/Landing_Reviews";
+import InventoryPage from "./inventory/page";
+import Dashboard from "./performancePage/page";
 
 export default function Home() {
   return (
@@ -24,6 +26,7 @@ export default function Home() {
       <Landing_Boxes />
       <Landing_Reviews />
       <Landing_Footer />
+      
     </div>
   );
 }
