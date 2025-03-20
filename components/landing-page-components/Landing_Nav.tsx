@@ -55,7 +55,7 @@ const Landing_Nav: React.FC = () => {
             <DropdownMenuLabel>Menu</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
-              <Link href="/dashboard">Dashboard</Link>
+              <Link href="/dashboard">Das</Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
               <Link 

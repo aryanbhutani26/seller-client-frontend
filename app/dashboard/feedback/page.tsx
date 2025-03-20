@@ -1,100 +1,220 @@
-// app/feedback/page.tsx
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Toaster, toast } from "sonner";
-import UnderDevelopmentCard from "@/components/ui/under-development-card";
+import React, { useState, useRef } from 'react';
+import emailjs from '@emailjs/browser';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-const FeedbackPage: React.FC = () => {
-  const [feedback, setFeedback] = useState("");
-  const [rating, setRating] = useState(0);
-  const [isFocused, setIsFocused] = useState(false);
+// ----------------------------- STOCK CARD COMPONENT ----------------------------- //
 
-  const handleSubmit = () => {
-    if (feedback.trim() === "" && rating === 0) {
-      toast(
-        <div className="flex items-center space-x-2">
-          <span role="img" aria-label="warning emoji" className="text-xl">
-            ⚠️
-          </span>
-          <p>Please submit both feedback and rating.</p>
-        </div>,
-        { 
-          style: {
-            backgroundColor: "#FEF3C7", 
-            color: "#92400E", 
-            border: "1px solid #F59E0B", 
-          },
-          duration: 2000, 
-        }
-      );
-      return;
-    }
-
-    if (feedback.trim() === "" && rating !== 0) {
-      toast(
-        <div className="flex items-center space-x-2">
-          <span role="img" aria-label="warning emoji" className="text-xl">
-            ⚠️
-          </span>
-          <p>Please write some feedback.</p>
-        </div>,
-        { 
-          style: {
-            backgroundColor: "#FEF3C7", 
-            color: "#92400E", 
-            border: "1px solid #F59E0B", 
-          },
-          duration: 2000,
-        }
-      );
-      setRating(0);
-      return;
-    }
-
-    if (feedback.trim() !== "" && rating === 0) {
-      toast(
-        <div className="flex items-center space-x-2">
-          <span role="img" aria-label="warning emoji" className="text-xl">
-            ⚠️
-          </span>
-          <p>Please select a rating.</p>
-        </div>,
-        { 
-          style: {
-            backgroundColor: "#FEF3C7", 
-            color: "#92400E", 
-            border: "1px solid #F59E0B", 
-          },
-          duration: 2000,
-        }
-      );
-      setFeedback("");
-      return;
-    }
-
-    toast(
-      <div className="flex items-center space-x-2">
-        <span role="img" aria-label="thank you emoji" className="text-xl">
-          🙏
-        </span>
-        <p>Thank you for your feedback!</p>
-      </div>,
-      { duration: 2000 } 
-    );
-
-    setFeedback("");
-    setRating(0);
-  };
+const StockCard = ({
+  percentage,
+  stocksRemaining,
+}: {
+  percentage: number;
+  stocksRemaining: number;
+}) => {
+  const isPositive = percentage >= 0;
 
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mt-20 sm:mt-12">Feedback</h1>
-      <p className="mt-2 text-gray-600">Customer feedback and reviews.</p>
-      <UnderDevelopmentCard />
+    <div className="flex flex-col items-center justify-center space-y-1 w-[180px] p-4 rounded-lg shadow-sm bg-white">
+    {/* Top Row: Icon + Percentage */}
+    <div className="flex items-center space-x-2">
+      {/* Icon */}
+      <svg
+  className="w-5 h-5 text-white"
+  fill="currentColor"
+  stroke="black"        // black border
+  strokeWidth="1.5"     // border thickness
+  viewBox="0 0 24 24"
+>
+  <g>
+    {/* Bars */}
+    <rect x="1" y="10" width="4" height="10" />
+    <rect x="8" y="6" width="4" height="14" />
+    <rect x="15" y="4" width="4" height="16" />
+    
+    {/* Underline */}
+    <rect x="0" y="24" width="19" height="2.5" />
+    {/* Explanation:
+        x="0" - starts at left edge
+        y="20" - vertically positioned under the bars
+        width="22" - stretch under all three bars (adjust as needed)
+        height="1.5" - thickness of underline (adjust as needed)
+    */}
+  </g>
+</svg>
+
+
+        {/* Percentage */}
+        <span
+          className={`text-[14px] font-normal ${
+            isPositive ? 'text-green-600' : 'text-red-600'
+          }`}
+        >
+          {percentage}%
+        </span>
+      </div>
+
+      {/* Bottom Text */}
+      <p className="text-[9px] text-gray-800">
+        {stocksRemaining} Stocks Remaining
+      </p>
     </div>
   );
 };
 
-export default FeedbackPage;
+// ----------------------------- FEEDBACK FORM COMPONENT ----------------------------- //
+
+const FeedbackForm = () => {
+  const [feedback, setFeedback] = useState('');
+  const [rating, setRating] = useState(0);
+  const form = useRef<HTMLFormElement>(null);
+
+  const handleRating = (rate: number) => {
+    setRating(rate);
+    toast.success(`You rated ${rate} star${rate > 1 ? 's' : ''}!`, {
+      position: 'top-center',
+      autoClose: 1500,
+    });
+  };
+
+  const sendEmail = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const serviceID = 'service_uyybce6';
+    const templateID = 'template_umc3vou';
+    const publicKey = 'X7NUSPqkuR-DQ4sRv';
+
+    if (!form.current) {
+      console.error('Form reference is not set.');
+      return;
+    }
+
+    try {
+      const result = await emailjs.sendForm(
+        serviceID,
+        templateID,
+        form.current,
+        publicKey
+      );
+      console.log('EmailJS Response:', result);
+
+      toast.success('Feedback submitted successfully!', {
+        position: 'top-center',
+        autoClose: 2000,
+      });
+
+      setFeedback('');
+      setRating(0);
+      form.current.reset();
+    } catch (error: any) {
+      console.error('EmailJS Error:', error);
+      toast.error('An error occurred. Please try again.', {
+        position: 'top-center',
+        autoClose: 2000,
+      });
+    }
+  };
+
+  return (
+    <div className="flex flex-col items-center p-4 bg-white rounded-lg w-full max-w-md">
+      <ToastContainer />
+
+      <div className="w-full justify-start mt-4 p-4">
+        <select
+          name="category"
+          className="px-4 py-2 border border-gray-300 rounded-full bg-white w-full"
+          required
+        >
+          <option value="">Select Category</option>
+          <option value="Shirt related">Shirt related</option>
+          <option value="Pant related">Pant related</option>
+          <option value="Hoodies related">Hoodies related</option>
+        </select>
+      </div>
+
+      <form
+        ref={form}
+        onSubmit={sendEmail}
+        className="bg-white p-6 rounded-lg shadow-md w-full"
+      >
+        <h2 className="text-lg font-semibold mb-6">Feedback</h2>
+
+        <div className="mb-4 relative">
+          <label className="absolute -top-3 left-4 bg-white px-2 text-sm text-gray-600">
+            Write Feedback
+          </label>
+          <textarea
+            name="feedback"
+            className="w-full p-4 border border-gray-300 rounded focus:outline-none"
+            rows={4}
+            placeholder="Write your feedback here..."
+            value={feedback}
+            onChange={(e) => setFeedback(e.target.value)}
+            required
+          />
+        </div>
+
+        <div className="mb-4">
+          <label className="block text-sm font-medium mb-1">Give Rating:</label>
+          <div className="flex">
+            {[1, 2, 3, 4, 5].map((star) => (
+              <svg
+                key={star}
+                onClick={() => handleRating(star)}
+                xmlns="http://www.w3.org/2000/svg"
+                fill={rating >= star ? '#fbbf24' : 'none'}
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                className={`p-1 h-6 w-6 cursor-pointer transition-transform transform hover:scale-110 ${
+                  rating >= star ? 'text-yellow-400' : 'text-gray-400'
+                }`}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l2.044 6.29a1 1 0 00.95.69h6.631c.969 0 1.371 1.24.588 1.81l-5.37 3.89a1 1 0 00-.364 1.118l2.045 6.29c.3.921-.755 1.688-1.538 1.118l-5.37-3.89a1 1 0 00-1.175 0l-5.37 3.89c-.783.57-1.838-.197-1.538-1.118l2.045-6.29a1 1 0 00-.364-1.118l-5.37-3.89c-.783-.57-.38-1.81.588-1.81h6.631a1 1 0 00.95-.69l2.044-6.29z"
+                />
+              </svg>
+            ))}
+          </div>
+        </div>
+
+        <input type="hidden" name="rating" value={rating} />
+
+        <button
+          type="submit"
+          className="bg-black text-white px-6 py-2 rounded hover:bg-gray-800 w-full"
+        >
+          Submit
+        </button>
+      </form>
+    </div>
+  );
+};
+
+// ----------------------------- MAIN PAGE COMPONENT ----------------------------- //
+const DashboardPage = () => {
+  return (
+    <div className="min-h-screen bg-white p-6 flex justify-center">
+      {/* Wrapper for Feedback and Stock Cards */}
+      <div className="flex flex-row gap-10 w-full max-w-7xl bg-white rounded-lg shadow-md p-8">
+        {/* LEFT SIDE - FEEDBACK FORM */}
+        <div className="flex-1 flex flex-col justify-start">
+          <FeedbackForm />
+        </div>
+
+        {/* RIGHT SIDE - STOCK CARDS */}
+        <div className="flex flex-col gap-6 justify-start items-end h-full overflow-y-auto pr-4 mt-12">
+          <StockCard percentage={12.5} stocksRemaining={135} />
+          <StockCard percentage={-5.8} stocksRemaining={135} />
+          <StockCard percentage={0.5} stocksRemaining={135} />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default DashboardPage;
