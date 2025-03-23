@@ -14,12 +14,14 @@ import {
   ClipboardList,
   X,
   MessageSquareMore,
+  ShoppingCart,
 } from "lucide-react";
 import Link from "next/link";
 
 const menuItems = [
   { name: "Dashboard", href: "/dashboard", icon: <BarChart3 size={22} className="text-blue-500" /> },
   { name: "Orders", href: "/dashboard/orders", icon: <ClipboardList size={22} className="text-green-500" /> },
+  { name: "Products", href: "/dashboard/products", icon: <ShoppingCart size={22} className="text-green-500" /> },
   { name: "Settings", href: "/dashboard/settings", icon: <Settings size={22} className="text-gray-500" /> },
   { name: "Reports", href: "/dashboard/reports", icon: <Package size={22} className="text-yellow-500" /> },
   { name: "Analytics", href: "/dashboard/analytics", icon: <BarChart3 size={22} className="text-indigo-500" /> },
