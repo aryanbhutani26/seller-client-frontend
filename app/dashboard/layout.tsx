@@ -1,11 +1,14 @@
 "use client"; // Required for interactivity
 
-import { useState } from "react";
-import Sidebar from "@/components/Sidebar";
-import Navbar from "../components/Dasboard/Dasboardnavbar";
+// import { useState } from "react";
+// Remove unused Sidebar import
+
+// Remove: import { Sidebar } from ...
+
+import DashboardNavbar from "../components/Dasboard/Dasboardnavbar";
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  // const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -14,7 +17,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
       {/* Main Content */}
       <div className="flex-1 flex flex-col">
-        <Navbar toggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
+      {/* onToggleSidebar={() => setSidebarOpen(!sidebarOpen)} */}
+<DashboardNavbar  />
+
+
         <main className="flex-1 p-4 md:p-6 overflow-auto bg-gray-100">
           {children}
         </main>

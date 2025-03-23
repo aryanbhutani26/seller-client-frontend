@@ -1,8 +1,14 @@
 "use client"
 import OverviewPage from "@/components/Dashboard/OverView";
 import ProductPerformance from "@/components/Dashboard/ProductPerformance";
-import DashBoard from "@/components/Dashboard/DasBoard";
 
+
+// Use the imported components or remove them
 export default function DashboardPage() {
-  return <DashBoard />;
+  return (
+    <div>
+      <OverviewPage />
+      <ProductPerformance />
+    </div>
+  );
 }

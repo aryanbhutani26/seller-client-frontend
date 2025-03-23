@@ -1,52 +1,36 @@
 "use client";
-
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
+import { supabase } from "@/lib/supabaseClient";
+import "remixicon/fonts/remixicon.css";
 
 const SignUpPage: React.FC = () => {
   const router = useRouter();
 
-  const [formData, setFormData] = useState<{
-    email: string;
-    aadhar: string;
-    pan: string;
-    password: string;
-  }>({
+  const [formData, setFormData] = useState({
     email: "",
     aadhar: "",
     pan: "",
     password: "",
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prevState) => ({ ...prevState, [name]: value }));
-    console.log(window.innerWidth);
-  };
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    console.log("Form submitted:", formData);
-    
-    // Redirect to dashboard or home page after successful signup
-    router.push("/dashboard");  // or router.push("/") for home page
-  };
-
-  // google auth functions
-  const handleSuccess = (response: any) => {
-    console.log("Google Login Success:", response);
-    router.push("/");
-  };
-
-  const handleError = () => {
-    console.error("Google Login Failed");
-  };
-
-  //
+  const [error, setError] = useState<string | null>(null);
   const [gridItems, setGridItems] = useState<number[]>([]);
+  const [mounted, setMounted] = useState<boolean>(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const [showPassword, setShowPassword] = useState<string>("password");
+  function handlePasswordType() {
+    if (showPassword === "password") {
+      setShowPassword("text");
+    } else {
+      setShowPassword("password");
+    }
+  }
+
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -57,11 +41,35 @@ const SignUpPage: React.FC = () => {
     }
   }, []);
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prevState) => ({ ...prevState, [name]: value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setError(null);
+
+    // Supabase Sign Up
+    const { data, error } = await supabase.auth.signUp({
+      email: formData.email,
+      password: formData.password,
+    });
+
+    if (error) {
+      setError(error.message);
+      return;
+    }
+
+    console.log("User registered:", data);
+    router.push("/dashboard"); // This will redirect to dashboard after successful registration
+  };
+
   return (
     <>
       <main className="min-h-screen bg-[#2C3E50] w-full text-white overflow-x-hidden">
-        {/* background hovering effect */}
-        <div className="absolute top-0 left-0 w-full grid grid-cols-[repeat(auto-fit,64px)] grid-rows-[repeat(auto-fit,64px)] z-0">
+        {/* Background hovering effect */}
+        <div className="absolute top-0 left-0 w-full grid grid-cols-[repeat(auto-fit,64px)] grid-rows-[repeat(auto-fit,64px)] z-0 h-screen overflow-hidden">
           {gridItems.map((_, i) => (
             <div
               key={i}
@@ -70,7 +78,7 @@ const SignUpPage: React.FC = () => {
           ))}
         </div>
 
-        {/* content div */}
+        {/* Content div */}
         <div>
           <div className="h-20 flex pl-8 md:pl-10 items-center font-bold text-3xl z-50">
             <h1>ClothBuddy</h1>
@@ -82,9 +90,9 @@ const SignUpPage: React.FC = () => {
               <h2 className="mb-6 text-center text-2xl font-semibold">
                 Register
               </h2>
-
-              <form className="space-y-4" onSubmit={handleSubmit}>
-                <div>
+              {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
+              {mounted && (
+                <form className="space-y-4" onSubmit={handleSubmit}>
                   <input
                     type="email"
                     name="email"
@@ -92,11 +100,8 @@ const SignUpPage: React.FC = () => {
                     onChange={handleChange}
                     placeholder="Enter your e-mail"
                     required
-                    className="w-full rounded-md bg-gray-600/50 px-4 py-2 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white/50"
+                    className="w-full rounded-md bg-gray-600/50 px-4 py-2 text-white placeholder-gray-400"
                   />
-                </div>
-
-                <div>
                   <input
                     type="text"
                     name="aadhar"
@@ -107,11 +112,8 @@ const SignUpPage: React.FC = () => {
                     maxLength={12}
                     pattern="\d{12}"
                     title="Aadhaar number should be 12 digits"
-                    className="w-full rounded-md bg-gray-600/50 px-4 py-2 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white/50"
+                    className="w-full rounded-md bg-gray-600/50 px-4 py-2 text-white placeholder-gray-400"
                   />
-                </div>
-
-                <div>
                   <input
                     type="text"
                     name="pan"
@@ -121,44 +123,32 @@ const SignUpPage: React.FC = () => {
                     required
                     pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}"
                     title="Enter a valid PAN number (e.g., ABCDE1234F)"
-                    className="w-full rounded-md bg-gray-600/50 px-4 py-2 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white/50"
+                    className="w-full rounded-md bg-gray-600/50 px-4 py-2 text-white placeholder-gray-400"
                   />
-                </div>
-
-                <div>
-                  <input
-                    type="password"
-                    name="password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    placeholder="Create a new password"
-                    required
-                    minLength={6}
-                    className="w-full rounded-md bg-gray-600/50 px-4 py-2 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white/50"
-                  />
-                </div>
-
-                <div>
+                  <div className="relative flex items-center">
+                    <input
+                      type={showPassword}
+                      name="password"
+                      value={formData.password}
+                      onChange={handleChange}
+                      placeholder="Create a new password"
+                      required
+                      minLength={6}
+                      className="w-full rounded-md bg-gray-600/50 px-4 py-2 text-white placeholder-gray-400"
+                    />
+                    <i
+                      onClick={handlePasswordType}
+                      className="absolute right-2 ri-eye-fill"
+                    ></i>
+                  </div>
                   <button
                     type="submit"
-                    className="w-full rounded-md bg-gray-600/50 py-2 font-medium text-white hover:bg-gray-600/70 focus:outline-none focus:ring-2 focus:ring-white/50"
+                    className="w-full rounded-md bg-gray-600/50 py-2 font-medium text-white hover:bg-gray-600/70"
                   >
                     Register
                   </button>
-                </div>
-              </form>
-
-              {/* google auth */}
-              <div className="mt-5">
-                <GoogleOAuthProvider clientId="926648970984-6ohif2ohrsrhig9o884g5un7j6i1jo57.apps.googleusercontent.com">
-                  <GoogleLogin
-                    onSuccess={handleSuccess}
-                    onError={handleError}
-                  />
-                </GoogleOAuthProvider>
-              </div>
-
-              {/* Link to Sign In Page */}
+                </form>
+              )}
               <p className="mt-4 text-center text-sm text-gray-400">
                 Already have an account?{" "}
                 <Link href="/login" className="text-blue-400 hover:underline">

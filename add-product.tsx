@@ -1,5 +1,6 @@
-import AddProductForm from "@/components/AddProductForm";
+
 "use client";
+import AddProductForm from "./components/AddProductForm";
 export default function AddProductPage() {
   return (
     <div className="max-w-lg mx-auto mt-10">
