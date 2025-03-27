@@ -2,43 +2,40 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { supabase } from "@/lib/supabaseClient";
-import "remixicon/fonts/remixicon.css";
+import Image from "next/image";
 
 const SignUpPage: React.FC = () => {
   const router = useRouter();
 
   const [formData, setFormData] = useState({
+    name: "",
+    number: "",
     email: "",
-    aadhar: "",
+    adhar: "",
     pan: "",
-    password: "",
   });
 
   const [error, setError] = useState<string | null>(null);
   const [gridItems, setGridItems] = useState<number[]>([]);
   const [mounted, setMounted] = useState<boolean>(false);
+
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  const [showPassword, setShowPassword] = useState<string>("password");
-  function handlePasswordType() {
-    if (showPassword === "password") {
-      setShowPassword("text");
-    } else {
-      setShowPassword("password");
-    }
-  }
-
-
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const items = Array(
-        Math.ceil(window.innerWidth / 64) * Math.ceil(window.innerHeight / 64)
-      ).fill(null);
-      setGridItems(items);
-    }
+    const updateGridItems = () => {
+      if (typeof window !== "undefined") {
+        const items = Array(
+          Math.ceil(window.innerWidth / 64) * Math.ceil(window.innerHeight / 64)
+        ).fill(null);
+        setGridItems(items);
+      }
+    };
+
+    updateGridItems();
+    window.addEventListener("resize", updateGridItems);
+    return () => window.removeEventListener("resize", updateGridItems);
   }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -46,112 +43,121 @@ const SignUpPage: React.FC = () => {
     setFormData((prevState) => ({ ...prevState, [name]: value }));
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
 
-    // Supabase Sign Up
-    const { data, error } = await supabase.auth.signUp({
-      email: formData.email,
-      password: formData.password,
-    });
-
-    if (error) {
-      setError(error.message);
+    // Basic input validation
+    if (formData.adhar.length !== 12 || !/^\d{12}$/.test(formData.adhar)) {
+      setError("Aadhaar number should be exactly 12 digits.");
+      return;
+    }
+    if (!/^[A-Z]{5}[0-9]{4}[A-Z]$/.test(formData.pan)) {
+      setError("PAN number should be in the format ABCDE1234F.");
       return;
     }
 
-    console.log("User registered:", data);
-    router.push("/dashboard"); // This will redirect to dashboard after successful registration
+    console.log("Form submitted:", formData);
+    router.push("/signup2");
   };
 
   return (
     <>
-      <main className="min-h-screen bg-[#2C3E50] w-full text-white overflow-x-hidden">
-        {/* Background hovering effect */}
-        <div className="absolute top-0 left-0 w-full grid grid-cols-[repeat(auto-fit,64px)] grid-rows-[repeat(auto-fit,64px)] z-0 h-screen overflow-hidden">
+      <main className="min-h-screen bg-gradient-to-r from-[#4B7DFA] to-[#F35EA0] w-full text-white overflow-x-hidden">
+        {/* ClothBuddy Logo Background */}
+        {["top-24 left-4 md:top-40 md:left-72 -rotate-[25deg]", 
+          "right-10 top-80 md:left-2/3 rotate-[25deg]", 
+          "bottom-4 right-10 md:bottom-10 md:right-10 rotate-[25deg]", 
+          "bottom-24 left-16 md:bottom-32 md:left-96 -rotate-[10deg]"
+        ].map((pos, index) => (
+          <div key={index} className={`absolute opacity-40 ${pos}`}>
+            <Image src="/ClothBuddyLogo.png" alt="Logo" width={120} height={120} />
+          </div>
+        ))}
+
+        {/* Background Hover Effect */}
+        <div className="absolute top-0 left-0 w-full grid grid-cols-[repeat(auto-fit,64px)] grid-rows-[repeat(auto-fit,64px)] z-10 h-screen overflow-hidden">
           {gridItems.map((_, i) => (
-            <div
-              key={i}
-              className="border-2 border-[#A4C8E1] w-16 h-16 opacity-0 hover:opacity-100 duration-300 ease-out"
-            ></div>
+            <div key={i} className="border-2 border-[#A4C8E1] w-16 h-16 opacity-0 hover:opacity-100 duration-300 ease-out"></div>
           ))}
         </div>
 
-        {/* Content div */}
+        {/* Content */}
         <div>
-          <div className="h-20 flex pl-8 md:pl-10 items-center font-bold text-3xl z-50">
-            <h1>ClothBuddy</h1>
-          </div>
+          <nav className="flex justify-between items-center bg-black px-4 md:px-8 h-20 z-50">
+            <h1 className="font-bold text-3xl">ClothBuddy</h1>
+          </nav>
 
           {/* Registration Form */}
-          <div className="mx-auto max-w-md p-6 mt-12 z-50 relative">
-            <div className="rounded-3xl bg-black p-8 shadow-lg ring-1 ring-white/10">
-              <h2 className="mb-6 text-center text-2xl font-semibold">
-                Register
-              </h2>
+          <div className="mx-auto max-w-md p-6 mt-12 z-30 relative">
+            <div className="rounded-3xl bg-white p-8 shadow-lg ring-1 ring-white/10">
+              <h2 className="mb-6 text-center text-2xl font-semibold text-black">Register</h2>
               {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
+
               {mounted && (
                 <form className="space-y-4" onSubmit={handleSubmit}>
+                  <input
+                    type="text"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    placeholder="Name"
+                    required
+                    className="w-full rounded-md bg-gray-300 px-4 py-2 text-black placeholder-black text-sm"
+                  />
+                  <input
+                    type="tel"
+                    name="number"
+                    value={formData.number}
+                    onChange={handleChange}
+                    placeholder="Phone Number"
+                    required
+                    inputMode="numeric"
+                    pattern="[0-9]{10}"
+                    title="Phone number should be 10 digits"
+                    className="w-full rounded-md bg-gray-300 px-4 py-2 text-black placeholder-black text-sm"
+                  />
                   <input
                     type="email"
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
-                    placeholder="Enter your e-mail"
+                    placeholder="Email"
                     required
-                    className="w-full rounded-md bg-gray-600/50 px-4 py-2 text-white placeholder-gray-400"
+                    className="w-full rounded-md bg-gray-300 px-4 py-2 text-black placeholder-black text-sm"
                   />
                   <input
                     type="text"
-                    name="aadhar"
-                    value={formData.aadhar}
+                    name="adhar"
+                    value={formData.adhar}
                     onChange={handleChange}
-                    placeholder="Enter your Aadhaar Number"
+                    placeholder="Aadhaar Number"
                     required
-                    maxLength={12}
+                    inputMode="numeric"
                     pattern="\d{12}"
-                    title="Aadhaar number should be 12 digits"
-                    className="w-full rounded-md bg-gray-600/50 px-4 py-2 text-white placeholder-gray-400"
+                    title="Aadhaar number should be exactly 12 digits"
+                    className="w-full rounded-md bg-gray-300 px-4 py-2 text-black placeholder-black text-sm"
                   />
                   <input
                     type="text"
                     name="pan"
                     value={formData.pan}
                     onChange={handleChange}
-                    placeholder="Enter your PAN Number"
+                    placeholder="PAN Number"
                     required
-                    pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}"
-                    title="Enter a valid PAN number (e.g., ABCDE1234F)"
-                    className="w-full rounded-md bg-gray-600/50 px-4 py-2 text-white placeholder-gray-400"
+                    pattern="[A-Z]{5}[0-9]{4}[A-Z]"
+                    title="PAN number should be in the format ABCDE1234F"
+                    className="w-full rounded-md bg-gray-300 px-4 py-2 text-black placeholder-black text-sm"
                   />
-                  <div className="relative flex items-center">
-                    <input
-                      type={showPassword}
-                      name="password"
-                      value={formData.password}
-                      onChange={handleChange}
-                      placeholder="Create a new password"
-                      required
-                      minLength={6}
-                      className="w-full rounded-md bg-gray-600/50 px-4 py-2 text-white placeholder-gray-400"
-                    />
-                    <i
-                      onClick={handlePasswordType}
-                      className="absolute right-2 ri-eye-fill"
-                    ></i>
-                  </div>
-                  <button
-                    type="submit"
-                    className="w-full rounded-md bg-gray-600/50 py-2 font-medium text-white hover:bg-gray-600/70"
-                  >
-                    Register
+                  <button className="w-full rounded-lg bg-blue-800 py-2 font-medium text-white hover:bg-blue-900 text-sm">
+                    Next
                   </button>
                 </form>
               )}
-              <p className="mt-4 text-center text-sm text-gray-400">
+
+              <p className="mt-4 text-center text-sm text-black">
                 Already have an account?{" "}
-                <Link href="/login" className="text-blue-400 hover:underline">
+                <Link href="/login" className="text-blue-800 hover:underline">
                   Sign in
                 </Link>
               </p>

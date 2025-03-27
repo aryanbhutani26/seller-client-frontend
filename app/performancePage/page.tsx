@@ -50,8 +50,9 @@ const chartOptions: ChartOptions<"bar"> = {
     y: {
       beginAtZero: true,
       ticks: {
-        callback: (value: number) => `₹ ${value}k`,
+        callback: (value: string | number) => `₹ ${Number(value)}k`,
       },
+      
     },
   },
 };
@@ -107,7 +108,7 @@ export default function Dashboard() {
         Welcome back, User!
       </h1>
       <p className="text-sm text-muted-foreground text-center md:text-left">
-        Here's Your Current Sales Overview
+        Here&apos;s Your Current Sales Overview
       </p>
 
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">

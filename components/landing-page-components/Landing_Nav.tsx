@@ -11,16 +11,7 @@ import "remixicon/fonts/remixicon.css";
 import Link from "next/link";
 
 const Landing_Nav: React.FC = () => {
-  const scrollToReviews = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-    const element = document.getElementById('reviews-section');
-    if (element) {
-      element.scrollIntoView({ 
-        behavior: 'smooth',
-        block: 'start'
-      });
-    }
-  };
+  
 
   return (
     <footer>
