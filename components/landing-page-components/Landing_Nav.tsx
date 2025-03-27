@@ -52,7 +52,7 @@ const Landing_Nav: React.FC = () => {
                 <Link href="/">Success Stories</Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
-                <Link href="/signup">Signup/Login</Link>
+                <Link href="/signup">Sell with us</Link>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
