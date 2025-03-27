@@ -17,6 +17,7 @@ import {
   X,
   MessageSquareMore,
   LogOut,
+  
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -28,6 +29,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
 import { supabase } from "@/lib/supabaseClient";
+import { AiFillProduct } from "react-icons/ai";
 
 const menuItems = [
   { name: "Dashboard", href: "/dashboard", icon: <BarChart3 size={22} className="text-blue-500" /> },
@@ -35,6 +37,7 @@ const menuItems = [
   { name: "Settings", href: "/dashboard/settings", icon: <Settings size={22} className="text-gray-500" /> },
   { name: "Reports", href: "/dashboard/reports", icon: <Package size={22} className="text-yellow-500" /> },
   { name: "Analytics", href: "/dashboard/analytics", icon: <BarChart3 size={22} className="text-indigo-500" /> },
+  { name: "Productlist", href: "/dashboard/productlist", icon:<AiFillProduct size={22} className="text-blue-500" /> },
   { name: "Feedback", href: "/dashboard/feedback", icon: <MessageSquareMore size={22} className="text-pink-500" /> },
   { name: "Support", href: "/dashboard/support", icon: <LifeBuoy size={22} className="text-red-500" /> },
 ];
