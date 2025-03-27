@@ -16,9 +16,9 @@ import {
   ClipboardList,
   X,
   MessageSquareMore,
-<<<<<<< HEAD
+
   ShoppingCart,
-=======
+
   LogOut,
 } from "lucide-react";
 import {
@@ -180,4 +180,3 @@ export default function DashboardNavbar() {
     </div>
   );
 }
-
