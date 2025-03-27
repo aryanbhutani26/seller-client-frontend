@@ -84,8 +84,9 @@ export default function DashboardNavbar() {
         </button>
 
         {/* Brand Name */}
-        <Link href="/dashboard" className="hover:opacity-80 transition-opacity">
-          <h1 className="text-2xl font-semibold tracking-wide text-gray-800">ClothBuddy</h1>
+   <Link href="/dashboard" className="flex items-center hover:opacity-80 transition-opacity">
+          <img className="w-14 lg:h-14 lg:w-18 lg:h-18" src="/ClothBuddyLogo.png" alt="ClothBuddy Logo" />
+          <p className="hidden text-lg font-semibold text-black sm:block lg:text-xl">ClothBuddy</p>
         </Link>
 
         {/* Search Bar */}
