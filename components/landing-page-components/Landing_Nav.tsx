@@ -16,7 +16,10 @@ const Landing_Nav: React.FC = () => {
   return (
     <footer>
       <nav className="navbar flex justify-between items-center px-7 py-5 container mx-auto">
-        <h1 className="text-2xl font-bold md:text-3xl">ClothBuddy</h1>
+       <Link href="/" className="flex items-center">
+          <img className="w-14 lg:h-14 lg:w-18 lg:h-18" src="/ClothBuddyLogo.png" alt="ClothBuddy Logo" />
+          <h1 className="hidden text-lg font-semibold text-black sm:block lg:text-xl">ClothBuddy</h1>
+        </Link>
 
         {/* Desktop Menu */}
         <div className="hidden md:flex space-x-6 items-center">
