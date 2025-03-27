@@ -34,6 +34,34 @@ const Landing_Nav: React.FC = () => {
           </Link>
         </div>
 
+<<<<<<< HEAD
+      {/* Mobile Dropdown Menu */}
+      <div className="md:hidden">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <button aria-label="Open menu" className="text-xl">
+              <i className="ri-menu-3-line font-bold"></i>
+            </button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuLabel>Menu</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem asChild>
+              <Link href="/dashboard">Das</Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <Link 
+                href="#reviews-section" 
+                onClick={scrollToReviews}
+              >
+                Success Stories
+              </Link>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+    </nav>
+=======
         {/* Mobile Dropdown Menu */}
         <div className="md:hidden">
           <DropdownMenu>
@@ -59,6 +87,7 @@ const Landing_Nav: React.FC = () => {
         </div>
       </nav>
     </footer>
+>>>>>>> 126ff4d4b3c0d68fc3f7b84f5409131e43bef55b
   );
 };
 
