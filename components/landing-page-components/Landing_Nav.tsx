@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import "remixicon/fonts/remixicon.css";
 import Link from "next/link";
+import Image from "next/image";
 
 const Landing_Nav: React.FC = () => {
   
@@ -17,7 +18,7 @@ const Landing_Nav: React.FC = () => {
     <footer>
       <nav className="navbar flex justify-between items-center px-7 py-5 container mx-auto">
        <Link href="/" className="flex items-center">
-          <img className="w-14 lg:h-14 lg:w-18 lg:h-18" src="/ClothBuddyLogo.png" alt="ClothBuddy Logo" />
+          <Image className="w-14 lg:h-14 lg:w-18 lg:h-18" src="/ClothBuddyLogo.png" alt="ClothBuddy Logo" width={56} height={56} />
           <h1 className="hidden text-lg font-semibold text-black sm:block lg:text-xl">ClothBuddy</h1>
         </Link>
 
