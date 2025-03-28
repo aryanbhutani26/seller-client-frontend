@@ -19,7 +19,7 @@ const Landing_Nav: React.FC = () => {
       <nav className="navbar flex justify-between items-center px-7 py-5 container mx-auto">
        <Link href="/" className="flex items-center">
           <Image className="w-14 lg:h-14 lg:w-18 lg:h-18 mr-5" src="/ClothBuddyLogo.png" alt="ClothBuddy Logo" width={56} height={56} />
-          <h1 className="hidden text-lg font-semibold text-black sm:block lg:text-xl">ClothBuddy</h1>
+          <h1 className="hidden text-lg font-semibold text-black sm:block lg:text-xl">ClothBuddy <span className="text-blue-900 font-semibold">Business </span></h1>
         </Link>
 
         {/* Desktop Menu */}
