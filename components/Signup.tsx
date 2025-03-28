@@ -112,7 +112,13 @@ const SignUpPage: React.FC = () => {
           <nav className="flex justify-between items-center bg-black px-4 md:px-8 h-20 z-50">
             {/* navbar left side */}
             <div className="flex items-center font-bold text-3xl z-50">
-              <h1>ClothBuddy</h1>
+              <Image
+            src="/ClothBuddyLogo.png"
+            alt="Logo"
+            width={50}
+            height={50}
+            />
+            <h1 className='ml-2'>ClothBuddy Business</h1>
             </div>
           </nav>
 

@@ -116,7 +116,13 @@ const LoginPage: React.FC = () => {
           <nav className="flex justify-between items-center bg-black px-4 md:px-8 h-20 z-50">
             {/* navbar left side */}
             <div className="flex items-center font-bold text-3xl z-50">
-              <h1>ClothBuddy</h1>
+            <Image
+            src="/ClothBuddyLogo.png"
+            alt="Logo"
+            width={50}
+            height={50}
+            />
+              <h1 className='ml-2'>ClothBuddy Business</h1>
             </div>
             {/* navbar search 
             <div className=" md:flex items-center relative hidden ">
@@ -173,6 +179,7 @@ const LoginPage: React.FC = () => {
           {/* Login Form */}
           <div className="mx-auto max-w-md p-6 mt-12 z-50 relative">
             <div className="rounded-lg bg-white p-8 shadow-lg ring-1 ring-white/10">
+            
               <h2 className="mb-6 text-center text-2xl font-semibold text-black">
                 Login
               </h2>

@@ -94,7 +94,7 @@ export default function DashboardNavbar() {
             height={56}
             priority
           />
-          <p className="hidden text-lg font-semibold text-black sm:block lg:text-xl">ClothBuddy</p>
+          <p className="hidden text-lg font-semibold text-black sm:block lg:text-xl">ClothBuddy <span className="text-blue-900 font-semibold">Business</span></p>
         </Link>
 
         {/* Search Bar */}
