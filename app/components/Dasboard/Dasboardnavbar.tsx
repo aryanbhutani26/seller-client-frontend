@@ -16,11 +16,10 @@ import {
   ClipboardList,
   X,
   MessageSquareMore,
-<<<<<<< HEAD
+
   ShoppingCart,
-=======
+
   LogOut,
->>>>>>> 126ff4d4b3c0d68fc3f7b84f5409131e43bef55b
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -32,7 +31,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
 import { supabase } from "@/lib/supabaseClient";
-
+import { AiFillProduct } from "react-icons/ai";
 const menuItems = [
   { name: "Dashboard", href: "/dashboard", icon: <BarChart3 size={22} className="text-blue-500" /> },
   { name: "Orders", href: "/dashboard/orders", icon: <ClipboardList size={22} className="text-green-500" /> },
@@ -40,6 +39,7 @@ const menuItems = [
   { name: "Settings", href: "/dashboard/settings", icon: <Settings size={22} className="text-gray-500" /> },
   { name: "Reports", href: "/dashboard/reports", icon: <Package size={22} className="text-yellow-500" /> },
   { name: "Analytics", href: "/dashboard/analytics", icon: <BarChart3 size={22} className="text-indigo-500" /> },
+  { name: "Productlist", href: "/dashboard/productlist", icon:<AiFillProduct size={22} className="text-blue-500" /> },
   { name: "Feedback", href: "/dashboard/feedback", icon: <MessageSquareMore size={22} className="text-pink-500" /> },
   { name: "Support", href: "/dashboard/support", icon: <LifeBuoy size={22} className="text-red-500" /> },
 ];
@@ -84,8 +84,9 @@ export default function DashboardNavbar() {
         </button>
 
         {/* Brand Name */}
-        <Link href="/dashboard" className="hover:opacity-80 transition-opacity">
-          <h1 className="text-2xl font-semibold tracking-wide text-gray-800">ClothBuddy</h1>
+   <Link href="/dashboard" className="flex items-center hover:opacity-80 transition-opacity">
+          <img className="w-14 lg:h-14 lg:w-18 lg:h-18" src="/ClothBuddyLogo.png" alt="ClothBuddy Logo" />
+          <p className="hidden text-lg font-semibold text-black sm:block lg:text-xl">ClothBuddy</p>
         </Link>
 
         {/* Search Bar */}
@@ -180,4 +181,3 @@ export default function DashboardNavbar() {
     </div>
   );
 }
-

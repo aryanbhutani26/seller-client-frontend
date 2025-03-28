@@ -2,17 +2,19 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { supabase } from "@/lib/supabaseClient";
+// import { supabase } from "@/lib/supabaseClient";
 import "remixicon/fonts/remixicon.css";
+import Image from "next/image";
 
 const SignUpPage: React.FC = () => {
   const router = useRouter();
 
   const [formData, setFormData] = useState({
+    name: "",
+    number: "",
     email: "",
-    aadhar: "",
+    adhar: "",
     pan: "",
-    password: "",
   });
 
   const [error, setError] = useState<string | null>(null);
@@ -21,17 +23,7 @@ const SignUpPage: React.FC = () => {
   useEffect(() => {
     setMounted(true);
   }, []);
-
-  const [showPassword, setShowPassword] = useState<string>("password");
-  function handlePasswordType() {
-    if (showPassword === "password") {
-      setShowPassword("text");
-    } else {
-      setShowPassword("password");
-    }
-  }
-
-
+    
   useEffect(() => {
     if (typeof window !== "undefined") {
       const items = Array(
@@ -48,28 +40,63 @@ const SignUpPage: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setError(null);
+    // setError(null);
 
-    // Supabase Sign Up
-    const { data, error } = await supabase.auth.signUp({
-      email: formData.email,
-      password: formData.password,
-    });
+    // // Supabase Sign Up
+    // const { data, error } = await supabase.auth.signUp({
+    //   email: formData.email,
+    //   password: formData.password,
+    // });
 
-    if (error) {
-      setError(error.message);
-      return;
-    }
+    // if (error) {
+    //   setError(error.message);
+    //   return;
+    // }
 
-    console.log("User registered:", data);
-    router.push("/dashboard"); // This will redirect to dashboard after successful registration
+    // console.log("User registered:", data);
+    router.push("/signup2"); // This will redirect to dashboard after successful registration
   };
 
   return (
     <>
-      <main className="min-h-screen bg-[#2C3E50] w-full text-white overflow-x-hidden">
+      <main className="min-h-screen bg-gradient-to-r from-[#4B7DFA] to-[#F35EA0] w-full text-white overflow-x-hidden">
+        {/* ClothBuddy Logo */}
+        <div className="absolute opacity-40 top-24 left-4 md:top-40 md:left-72 -rotate-[25deg]">
+          <Image
+            src="/ClothBuddyLogo.png"
+            alt="Logo"
+            width={120}
+            height={120}
+          />
+        </div>
+        {/* CLothBuddy Logo */}
+        <div className="absolute opacity-40 right-10 top-80 md:left-2/3 rotate-[25deg]">
+          <Image
+            src="/ClothBuddyLogo.png"
+            alt="Logo"
+            width={120}
+            height={120}
+          />
+        </div>
+        {/* CLothBuddy Logo */}
+        <div className="absolute opacity-40 bottom-4 right-10 md:bottom-10 md:right-10 rotate-[25deg]">
+          <Image
+            src="/ClothBuddyLogo.png"
+            alt="Logo"
+            width={120}
+            height={120}
+          />
+        </div>
+        <div className="absolute opacity-40 bottom-24 left-16 md:bottom-32 md:left-96 -rotate-[10deg]">
+          <Image
+            src="/ClothBuddyLogo.png"
+            alt="Logo"
+            width={120}
+            height={120}
+          />
+        </div>
         {/* Background hovering effect */}
-        <div className="absolute top-0 left-0 w-full grid grid-cols-[repeat(auto-fit,64px)] grid-rows-[repeat(auto-fit,64px)] z-0 h-screen overflow-hidden">
+        <div className="absolute top-0 left-0 w-full grid grid-cols-[repeat(auto-fit,64px)] grid-rows-[repeat(auto-fit,64px)] z-10 h-screen overflow-hidden">
           {gridItems.map((_, i) => (
             <div
               key={i}
@@ -80,78 +107,87 @@ const SignUpPage: React.FC = () => {
 
         {/* Content div */}
         <div>
-          <div className="h-20 flex pl-8 md:pl-10 items-center font-bold text-3xl z-50">
-            <h1>ClothBuddy</h1>
-          </div>
+          <nav className="flex justify-between items-center bg-black px-4 md:px-8 h-20 z-50">
+            {/* navbar left side */}
+            <div className="flex items-center font-bold text-3xl z-50">
+              <h1>ClothBuddy</h1>
+            </div>
+          </nav>
 
           {/* Registration Form */}
-          <div className="mx-auto max-w-md p-6 mt-12 z-50 relative">
-            <div className="rounded-3xl bg-black p-8 shadow-lg ring-1 ring-white/10">
-              <h2 className="mb-6 text-center text-2xl font-semibold">
+          <div className="mx-auto max-w-md p-6 mt-12 z-30 relative">
+            <div className="rounded-3xl bg-white p-8 shadow-lg ring-1 ring-white/10">
+              <h2 className="mb-6 text-center text-2xl font-semibold text-black">
                 Register
               </h2>
               {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
               {mounted && (
                 <form className="space-y-4" onSubmit={handleSubmit}>
                   <input
-                    type="email"
-                    name="email"
-                    value={formData.email}
+                    type="text"
+                    name="name"
+                    value={formData.name}
                     onChange={handleChange}
-                    placeholder="Enter your e-mail"
+                    placeholder="Name"
                     required
-                    className="w-full rounded-md bg-gray-600/50 px-4 py-2 text-white placeholder-gray-400"
+                    className="w-full rounded-md bg-gray-300 px-4 py-2 text-black placeholder-black text-sm"
                   />
                   <input
-                    type="text"
-                    name="aadhar"
-                    value={formData.aadhar}
+                    type="number"
+                    name="number"
+                    value={formData.number}
                     onChange={handleChange}
-                    placeholder="Enter your Aadhaar Number"
+                    placeholder="Phone Number"
                     required
                     maxLength={12}
                     pattern="\d{12}"
                     title="Aadhaar number should be 12 digits"
-                    className="w-full rounded-md bg-gray-600/50 px-4 py-2 text-white placeholder-gray-400"
+                    className="w-full rounded-md bg-gray-300 px-4 py-2 text-black placeholder-black text-sm"
                   />
                   <input
-                    type="text"
-                    name="pan"
-                    value={formData.pan}
+                    type="email"
+                    name="email"
+                    value={formData.email}
                     onChange={handleChange}
-                    placeholder="Enter your PAN Number"
+                    placeholder="Email"
                     required
-                    pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}"
-                    title="Enter a valid PAN number (e.g., ABCDE1234F)"
-                    className="w-full rounded-md bg-gray-600/50 px-4 py-2 text-white placeholder-gray-400"
+                    className="w-full rounded-md bg-gray-300 px-4 py-2 text-black placeholder-black text-sm"
                   />
                   <div className="relative flex items-center">
                     <input
-                      type={showPassword}
-                      name="password"
-                      value={formData.password}
+                      type="number"
+                      name="adhar"
+                      value={formData.adhar}
                       onChange={handleChange}
-                      placeholder="Create a new password"
+                      placeholder="Addhar Number"
                       required
-                      minLength={6}
-                      className="w-full rounded-md bg-gray-600/50 px-4 py-2 text-white placeholder-gray-400"
+                      minLength={12}
+                      className="w-full rounded-md bg-gray-300 px-4 py-2 text-black placeholder-black text-sm"
                     />
-                    <i
-                      onClick={handlePasswordType}
-                      className="absolute right-2 ri-eye-fill"
-                    ></i>
+                  </div>
+                  <div className="relative flex items-center">
+                    <input
+                      type="text"
+                      name="pan"
+                      value={formData.pan}
+                      onChange={handleChange}
+                      placeholder="Pan Number"
+                      required
+                      minLength={10}
+                      className="w-full rounded-md bg-gray-300 px-4 py-2 text-black placeholder-black text-sm"
+                    />
+                    
                   </div>
                   <button
-                    type="submit"
-                    className="w-full rounded-md bg-gray-600/50 py-2 font-medium text-white hover:bg-gray-600/70"
+                    className="w-full rounded-lg bg-blue-800 py-2 font-medium text-white hover:blue-900 text-sm"
                   >
-                    Register
+                    Next
                   </button>
                 </form>
               )}
-              <p className="mt-4 text-center text-sm text-gray-400">
+              <p className="mt-4 text-center text-sm text-black">
                 Already have an account?{" "}
-                <Link href="/login" className="text-blue-400 hover:underline">
+                <Link href="/login" className="text-blue-800 hover:underline">
                   Sign in
                 </Link>
               </p>
